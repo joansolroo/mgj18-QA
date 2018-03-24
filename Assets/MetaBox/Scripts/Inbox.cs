@@ -11,6 +11,7 @@ public class Inbox : MonoBehaviour {
     List<MailRenderer> mailRenderers;
     [SerializeField] GameObject loadingLayer;
 
+    [SerializeField] RectTransform[] loadingOrder;
     // Use this for initialization
     void Start () {
         mailRenderers = new List<MailRenderer>();
@@ -34,6 +35,16 @@ public class Inbox : MonoBehaviour {
     private IEnumerator AddEmails()
     {
         loadingLayer.SetActive(true);
+        foreach (RectTransform rt in loadingOrder)
+        {
+            rt.gameObject.SetActive(false);
+        }
+        foreach (RectTransform rt in loadingOrder)
+        {
+            yield return new WaitForSeconds(Random.Range(0.1f,0.3f));
+            rt.gameObject.SetActive(true);
+        }
+        yield return new WaitForSeconds(1f);
         foreach (Mail m in mails)
         {
             MailRenderer mr = Instantiate(mailPrefab);

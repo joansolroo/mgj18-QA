@@ -39,10 +39,6 @@ public class DownloadRenderer : MonoBehaviour {
        
      }
 
-    /// DEBUG
-    [SerializeField] public GameObject unitySplash;
-    [SerializeField] public GameObject crash;
-    IEnumerator coroutine;
     public void RunProgram()
     {
         if (progress < 1)
@@ -51,17 +47,8 @@ public class DownloadRenderer : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Running :" + download.filename);
-            coroutine = RunAndCrash();
-            StartCoroutine("RunAndCrash");
+            OSHandler.Run(download);
         }
     }
-
-    private IEnumerator RunAndCrash()
-    {
-        unitySplash.SetActive(true);
-        yield return new WaitForSeconds(2);
-            print("WaitAndPrint " + Time.time);
-        crash.SetActive(true);
-    }
+    
 }
