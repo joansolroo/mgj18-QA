@@ -81,3 +81,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 *.unityweb
+.vs/mgj18-QA/v15/Browse.VC.db
+*.opendb
+.vs/mgj18-QA/v15/Browse.VC.db
+*.db
