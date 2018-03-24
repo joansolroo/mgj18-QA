@@ -15,6 +15,12 @@ public class Inbox : MonoBehaviour {
 
     [SerializeField] ResponseComposer responseComposer;
     // Use this for initialization
+
+    public static Inbox instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start () {
         mailRenderers = new List<MailRenderer>();
 
@@ -41,8 +47,7 @@ public class Inbox : MonoBehaviour {
         {
             rt.gameObject.SetActive(false);
         }
-        yield return new WaitForSeconds(5);
-        
+
         foreach (RectTransform rt in loadingOrder)
         {
             rt.gameObject.SetActive(true);
@@ -75,13 +80,41 @@ public class Inbox : MonoBehaviour {
         }
         loadingLayer.SetActive(false);
     }
-    private IEnumerator AddEmail(Mail m)
+    public static void AddMail(Mail m, Mail ReplyingTo)
+    {
+        instance.StartCoroutine(instance.PerformAddEmail(m, ReplyingTo));
+    }
+    private IEnumerator PerformAddEmail(Mail m, Mail replyingTo)
     {
         loadingLayer.SetActive(true);
         
         MailRenderer mr = Instantiate(mailPrefab);
         mr.mail = m;
-        mailRenderers.Insert(0,mr);
+        int position = 0;
+        if (replyingTo != null)
+        {
+            int parent=-1;
+            for(int idx = 0; idx < mailRenderers.Count; ++idx)
+            {
+                if (mailRenderers[idx].id == replyingTo.mr.id)
+                {
+                    parent = idx;
+                    break;
+                }
+            }
+            if (parent != -1)
+            {
+                for (int idx2 = parent + 1; idx2 < mailRenderers.Count; ++idx2)
+                {
+                    if (!mailRenderers[idx2].mail.isResponse)
+                    {
+                        position = idx2;
+                    }
+                }
+            }
+            
+        }
+        mailRenderers.Insert(position,mr);
         mr.height = 2;
         UpdateLayout();
         yield return new WaitForSeconds(0.25f);

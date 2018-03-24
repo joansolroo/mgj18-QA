@@ -5,6 +5,7 @@ using UnityEngine;
 public class ResponseComposer : MonoBehaviour
 {
 
+    [SerializeField] Sprite avatar;
 
     [SerializeField] UnityEngine.UI.Dropdown to;
 
@@ -20,8 +21,10 @@ public class ResponseComposer : MonoBehaviour
     {
         Changed();
     }
+    Mail replyingTo;
     public void Reply(Mail m)
     {
+        replyingTo = m;
         header.text = "RE:" + m.title;
     }
     public void Changed()
@@ -40,8 +43,32 @@ public class ResponseComposer : MonoBehaviour
             subject.captionText.text = subject.options[subject.value].text;
         }
     }
+    public string AsString()
+    {
+        string result = "Hi, \n"+introduction.captionText.text;
+        if (introduction.value == 1)
+        {
+            result += subject.captionText.text + " ";
+            if (auxiliar.value != 0)
+            {
+                result += auxiliar.captionText.text + " ";
+            }
+            result += problem.captionText.text;
+        }
+        result += "\nBest,\n*PAC";
+
+        return result;
+    }
     public void Send()
     {
+        Mail m = new Mail();
+        m.title = header.text;
+        m.avatar = avatar;
+        m.content = AsString();
+        m.isResponse = true;
+        m.height = 4;
+        Debug.Log(m.title + "//" + m.content);
+        Inbox.AddMail(m,replyingTo);
         gameObject.SetActive(false);
 
     }

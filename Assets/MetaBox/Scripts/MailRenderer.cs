@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MailRenderer : MonoBehaviour {
 
+    private static int MAX_ID = 0;
+    public int id = ++MAX_ID;
     [SerializeField] public Mail mail;
     [SerializeField] UnityEngine.UI.Image avatar;
     [SerializeField] UnityEngine.UI.Text title;
