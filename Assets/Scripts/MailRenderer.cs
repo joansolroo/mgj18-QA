@@ -32,9 +32,8 @@ public class MailRenderer : MonoBehaviour {
         height = 2;
         targetHeight = height;
 
-        rt = GetComponent<RectTransform>();
-        rt.localScale = Vector3.one;
-        
+        rt = GetComponent<RectTransform>(); 
+        StartCoroutine("CreateAnimation");
     }
 
    
@@ -51,15 +50,34 @@ public class MailRenderer : MonoBehaviour {
         expanded = !expanded;
         readMore.enabled = !expanded && mail.height > 2;
         targetHeight = expanded ? mail.height : 2;
+        StartCoroutine("ToggleAnimation");
     }
 
     private void Update()
     {
         
-        if (height != targetHeight) {
-            height = Mathf.MoveTowards(height, targetHeight, 5*Time.deltaTime* Mathf.Abs(height - targetHeight));
+        
+    }
+    private IEnumerator ToggleAnimation()
+    {
+
+        while (height != targetHeight)
+        {
+            height = Mathf.MoveTowards(height, targetHeight, 5 * Time.deltaTime * Mathf.Abs(height - targetHeight));
+            yield return new WaitForSeconds(Time.deltaTime);
             inbox.UpdateLayout();
-            Debug.Log("upd!");
+        }
+    }
+
+    Vector3 scale;
+    private IEnumerator CreateAnimation()
+    {
+        float scale = 0;
+        while (scale != 1)
+        {
+            scale = Mathf.MoveTowards(scale, 1, 2*Time.deltaTime);
+            rt.localScale = new Vector3(scale,1,scale);
+            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 

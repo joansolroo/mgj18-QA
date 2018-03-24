@@ -7,31 +7,65 @@ public class Inbox : MonoBehaviour {
     [SerializeField] List<Mail> mails;
     [SerializeField] MailRenderer mailPrefab;
 
-    Transform emailRegion;
+    [SerializeField] Transform emailRegion;
     List<MailRenderer> mailRenderers;
+    [SerializeField] GameObject loadingLayer;
+
     // Use this for initialization
     void Start () {
-
-        emailRegion = this.transform;
         mailRenderers = new List<MailRenderer>();
+
+        StartCoroutine("AddEmails");
+        //Loading(1);
+    }
+
+    public void Loading( float time)
+    {
+        StartCoroutine("LoadingCoroutine", time);
+    }
+
+    private IEnumerator LoadingCoroutine(float time)
+    {
+        loadingLayer.SetActive(true);
+        yield return new WaitForSeconds(time);
+        loadingLayer.SetActive(false);
+    }
+
+    private IEnumerator AddEmails()
+    {
+        loadingLayer.SetActive(true);
         foreach (Mail m in mails)
         {
             MailRenderer mr = Instantiate(mailPrefab);
             mr.mail = m;
-            mailRenderers.Add(mr);
+            mailRenderers.Insert(0,mr);
             mr.height = 2;
+            UpdateLayout();
+            yield return new WaitForSeconds(0.25f);
         }
-        UpdateLayout();
+        loadingLayer.SetActive(false);
     }
-	
-	public void UpdateLayout()
+    private IEnumerator AddEmail(Mail m)
+    {
+        loadingLayer.SetActive(true);
+        
+        MailRenderer mr = Instantiate(mailPrefab);
+        mr.mail = m;
+        mailRenderers.Insert(0,mr);
+        mr.height = 2;
+        UpdateLayout();
+        yield return new WaitForSeconds(0.25f);
+
+        loadingLayer.SetActive(false);
+    }
+    public void UpdateLayout()
     {
         int idx = 0;
         float offset = -60;
         foreach(MailRenderer mr in mailRenderers) { 
-            mr.transform.SetParent(this.transform);
+            mr.transform.SetParent(emailRegion.transform);
             RectTransform rt = mr.GetComponent<RectTransform>();
-            rt.localScale = Vector3.one;
+            //rt.localScale = Vector3.one;
             float sizeY = true? 120/2*mr.height:120;
             offset += sizeY + 20;
             rt.anchoredPosition = new Vector2(-10, -offset);
