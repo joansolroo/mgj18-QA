@@ -12,7 +12,8 @@ public class Inbox : MonoBehaviour {
     [SerializeField] GameObject loadingLayer;
 
     [SerializeField] RectTransform[] loadingOrder;
-    
+
+    [SerializeField] ResponseComposer responseComposer;
     // Use this for initialization
     void Start () {
         mailRenderers = new List<MailRenderer>();
@@ -92,7 +93,8 @@ public class Inbox : MonoBehaviour {
         container.sizeDelta = new Vector2(0, offset+180);
     }
     public void Reply(Mail mail)
-    {
-
+    { 
+        responseComposer.gameObject.SetActive(true);
+        responseComposer.Reply(mail);
     } 
 }

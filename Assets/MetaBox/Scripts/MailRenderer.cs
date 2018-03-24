@@ -89,4 +89,8 @@ public class MailRenderer : MonoBehaviour {
             DownloadManager.AddDownload(mail.download);
         }
     }
+    public void Reply()
+    {
+        inbox.Reply(mail);
+    }
 }

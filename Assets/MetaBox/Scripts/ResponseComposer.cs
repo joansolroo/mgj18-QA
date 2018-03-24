@@ -13,7 +13,8 @@ public class ResponseComposer : MonoBehaviour {
     [SerializeField] UnityEngine.UI.Dropdown auxiliar;
     [SerializeField] UnityEngine.UI.Dropdown problem;
 
-    public void Answer(Mail m)
+
+    public void Reply(Mail m)
     {
         header.text = "RE:"+m.title;
     }

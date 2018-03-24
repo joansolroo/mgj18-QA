@@ -9,4 +9,5 @@ public class Mail : ScriptableObject {
     [SerializeField] public string content;
     [SerializeField] public Download download;
     [SerializeField] public int height= 2;
+    [SerializeField] public List<Mail> chain;
 }
