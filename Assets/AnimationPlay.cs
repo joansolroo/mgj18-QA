@@ -28,9 +28,11 @@ public class AnimationPlay : MonoBehaviour {
     float idx = 0;
     private void Update()
     {
-        
-        image.sprite = sprites[(int)idx];
-        
-        idx = ((idx+animationSpeed) % sprites.Length);
+        if (playing)
+        {
+            image.sprite = sprites[(int)idx];
+
+            idx = ((idx + animationSpeed) % sprites.Length);
+        }
     }
 }

@@ -54,10 +54,24 @@ public class Inbox : MonoBehaviour {
         {
             MailRenderer mr = Instantiate(mailPrefab);
             mr.mail = m;
+            m.mr = mr;
             mailRenderers.Insert(0,mr);
             mr.height = 2;
             UpdateLayout();
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.05f);
+            int idx = 0;
+            foreach (Mail m2 in m.chain)
+            {
+                MailRenderer mr2 = Instantiate(mailPrefab);
+                mr2.mail = m2;
+                m2.title = "RE: " + m.title;
+                m2.mr = mr2;
+                mailRenderers.Insert(++idx, mr2);
+                mr2.height = 2;
+                UpdateLayout();
+                yield return new WaitForSeconds(0.05f);
+            }
+           
         }
         loadingLayer.SetActive(false);
     }
@@ -76,21 +90,31 @@ public class Inbox : MonoBehaviour {
     }
     public void UpdateLayout()
     {
-        int idx = 0;
         float offset = -60;
-        foreach(MailRenderer mr in mailRenderers) { 
-            mr.transform.SetParent(emailRegion.transform);
-            RectTransform rt = mr.GetComponent<RectTransform>();
-            //rt.localScale = Vector3.one;
-            float sizeY = true? 120/2*mr.height:120;
-            offset += sizeY + 20;
-            rt.anchoredPosition = new Vector2(-10, -offset);
-            rt.sizeDelta = new Vector2(0, sizeY);
-            mr.inbox = this;
-            idx++;
+        int idx = 0;
+        foreach(MailRenderer mr in mailRenderers) {
+            mr.index = idx++;
+            offset = UpdateMailRenderer(mr, offset);
         }
         RectTransform container = emailRegion.parent.GetComponent<RectTransform>();
         container.sizeDelta = new Vector2(0, offset+180);
+    }
+    float UpdateMailRenderer(MailRenderer mr, float offset)
+    {
+        mr.transform.SetParent(emailRegion.transform);
+        RectTransform rt = mr.rt;
+        if (rt == null)
+        {
+            mr.rt = mr.GetComponent<RectTransform>();
+            rt = mr.rt;
+        }
+        //rt.localScale = Vector3.one;
+        float sizeY = true ? 120 / 2 * mr.height : 120;
+        offset += sizeY + 20;
+        rt.anchoredPosition = new Vector2(mr.mail.isResponse ? 20 : -10, -offset);
+        rt.sizeDelta = new Vector2(0, sizeY);
+        mr.inbox = this;
+        return offset;
     }
     public void Reply(Mail mail)
     { 

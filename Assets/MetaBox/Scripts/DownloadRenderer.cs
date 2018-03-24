@@ -14,24 +14,31 @@ public class DownloadRenderer : MonoBehaviour {
     [SerializeField] public int height = 68;
     // Use this for initialization
 
-    float anchorX;
+    new AudioSource audio;
+
     void Start () {
-        anchorX = progressBar.position.x;
+
         fileNameText.text = download.filename;
+
+        audio = GetComponent<AudioSource>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    
+    // Update is called once per frame
+    void Update () {
         if(progress < 1)
         {
             progress = Mathf.MoveTowards(progress, 1, Time.deltaTime* Random.Range(0.1f,1));
             if (progress >= 1)
             {
-                GetComponent<AudioSource>().Play();
                 progressBar.GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 145, 255,255);
             }
             else
             {
+                if (progress > 0.9f && !audio.isPlaying)
+                {
+                    audio.Play();
+                }
                 float max = progress * 220;
                 progressBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, max);
             }

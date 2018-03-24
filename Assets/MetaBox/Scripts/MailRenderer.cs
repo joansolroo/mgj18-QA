@@ -11,6 +11,8 @@ public class MailRenderer : MonoBehaviour {
     [SerializeField] UnityEngine.UI.Text readMore;
     [SerializeField] UnityEngine.RectTransform downloadButton;
     [SerializeField] UnityEngine.UI.Image notDownloadedBackground;
+
+    [SerializeField] UnityEngine.UI.Button reply;
     [SerializeField] bool downloaded;
 
     bool read = false;
@@ -20,7 +22,9 @@ public class MailRenderer : MonoBehaviour {
 
     [HideInInspector] public  float height = 2;
 
-    RectTransform rt;
+    public RectTransform rt;
+
+    public int index;
     // Use this for initialization
     void Start () {
         avatar.sprite = mail.avatar;
@@ -31,6 +35,8 @@ public class MailRenderer : MonoBehaviour {
 
         height = 2;
         targetHeight = height;
+
+        reply.gameObject.SetActive(!mail.isResponse);
 
         rt = GetComponent<RectTransform>(); 
         StartCoroutine("CreateAnimation");
@@ -77,7 +83,7 @@ public class MailRenderer : MonoBehaviour {
         {
             scale = Mathf.MoveTowards(scale, 1, 2*Time.deltaTime);
             rt.localScale = new Vector3(scale,1,scale);
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime*.1f);
         }
     }
 

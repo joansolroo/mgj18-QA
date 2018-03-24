@@ -10,7 +10,7 @@ public class MailCreator
     {
         Mail asset = ScriptableObject.CreateInstance<Mail>();
 
-        AssetDatabase.CreateAsset(asset, "Assets/mails/new_email.asset");
+        AssetDatabase.CreateAsset(asset, AssetDatabase.GetAssetPath(Selection.activeObject)+"/new_email.asset");
         AssetDatabase.SaveAssets();
 
         EditorUtility.FocusProjectWindow();

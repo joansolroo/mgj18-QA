@@ -10,4 +10,6 @@ public class Mail : ScriptableObject {
     [SerializeField] public Download download;
     [SerializeField] public int height= 2;
     [SerializeField] public List<Mail> chain;
+    [SerializeField] public bool isResponse = false;
+    [SerializeField] public MailRenderer mr;
 }

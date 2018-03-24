@@ -29,6 +29,12 @@ public class DownloadManager : MonoBehaviour
         dr.transform.SetParent(instance.transform);
         dr.transform.localScale = Vector3.one;
         dr.GetComponent<RectTransform>().anchoredPosition = new Vector3((dr.width+10)*instance.downloads.Count, -33);
-        instance.downloads.Add(dr);
+        instance.downloads.Insert(0,dr);
+        if (instance.downloads.Count > 2)
+        {
+            DownloadRenderer toRemove = instance.downloads[instance.downloads.Count-1];
+            GameObject.Destroy(toRemove.gameObject);
+            instance.downloads.RemoveAt(instance.downloads.Count - 1);
+        }
     }
 }
