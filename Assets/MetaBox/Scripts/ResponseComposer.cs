@@ -12,24 +12,28 @@ public class ResponseComposer : MonoBehaviour
     [SerializeField] UnityEngine.UI.Text header;
 
     [SerializeField] UnityEngine.UI.Dropdown introduction;
+    [SerializeField] UnityEngine.UI.Text introduction_underline;
     [SerializeField] UnityEngine.UI.Dropdown subject;
+    [SerializeField] UnityEngine.UI.Text subject_underline;
     [SerializeField] UnityEngine.UI.Dropdown auxiliar;
+    [SerializeField] UnityEngine.UI.Text auxiliar_underline;
     [SerializeField] UnityEngine.UI.Dropdown problem;
+    [SerializeField] UnityEngine.UI.Text problem_underline;
 
 
     bool initialized;
     private void OnEnable()
     {
         introduction.value = 8;
-       // introduction.captionText.text = "[write an answer]";
-       
+        // introduction.captionText.text = "[write an answer]";
+
     }
     Mail replyingTo;
     public void Reply(Mail m)
     {
         replyingTo = m;
         header.text = "RE:" + m.title;
-     //   Changed();
+        //   Changed();
     }
     public void Changed()
     {
@@ -47,10 +51,23 @@ public class ResponseComposer : MonoBehaviour
         {
             subject.captionText.text = subject.options[subject.value].text;
         }
+        introduction_underline.text = DottedLine(introduction.captionText.text.Length);
+        subject_underline.text = DottedLine(subject.captionText.text.Length);
+        auxiliar_underline.text = DottedLine(auxiliar.captionText.text.Length);
+        problem_underline.text = DottedLine(problem.captionText.text.Length);
+    }
+    string DottedLine(int length)
+    {
+        string result = "";
+        for(int i = 0; i < length+1; i++)
+        {
+            result += ". ";
+        }
+        return result;
     }
     public string AsString()
     {
-        string result = "Hi, \n"+introduction.captionText.text;
+        string result = "Hi, \n" + introduction.captionText.text;
         if (introduction.value == 1)
         {
             result += subject.captionText.text + " ";
@@ -73,7 +90,7 @@ public class ResponseComposer : MonoBehaviour
         m.isResponse = true;
         m.height = 4;
         Debug.Log(m.title + "//" + m.content);
-        Inbox.AddMail(m,replyingTo);
+        Inbox.AddMail(m, replyingTo);
         gameObject.SetActive(false);
 
     }
