@@ -1,0 +1,74 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MailRenderer : MonoBehaviour {
+
+    [SerializeField] public Mail mail;
+    [SerializeField] UnityEngine.UI.Image avatar;
+    [SerializeField] UnityEngine.UI.Text title;
+    [SerializeField] UnityEngine.UI.Text content;
+    [SerializeField] UnityEngine.UI.Text readMore;
+    [SerializeField] UnityEngine.RectTransform downloadButton;
+    [SerializeField] UnityEngine.UI.Image notDownloadedBackground;
+    [SerializeField] bool downloaded;
+
+    bool read = false;
+    public bool expanded = false;
+
+    [HideInInspector] public Inbox inbox;
+
+    [HideInInspector] public  float height = 2;
+
+    RectTransform rt;
+    // Use this for initialization
+    void Start () {
+        avatar.sprite = mail.avatar;
+        title.text = mail.title;
+        content.text = mail.content;
+        downloadButton.gameObject.SetActive(mail.download!=null);
+        readMore.enabled = !expanded && mail.height > 2;
+
+        height = 2;
+        targetHeight = height;
+
+        rt = GetComponent<RectTransform>();
+        rt.localScale = Vector3.one;
+        
+    }
+
+   
+    
+    float targetHeight;
+    public void Toggle()
+    {
+        if (!read)
+        {
+            read = true;
+            title.fontStyle = FontStyle.Italic;
+            title.color = new Color32(114, 114, 114, 255);
+        }
+        expanded = !expanded;
+        readMore.enabled = !expanded && mail.height > 2;
+        targetHeight = expanded ? mail.height : 2;
+    }
+
+    private void Update()
+    {
+        
+        if (height != targetHeight) {
+            height = Mathf.MoveTowards(height, targetHeight, 5*Time.deltaTime* Mathf.Abs(height - targetHeight));
+            inbox.UpdateLayout();
+            Debug.Log("upd!");
+        }
+    }
+
+    public void Download()
+    {
+        if (!downloaded)
+        {
+            notDownloadedBackground.enabled = false;
+            DownloadManager.AddDownload(mail.download);
+        }
+    }
+}

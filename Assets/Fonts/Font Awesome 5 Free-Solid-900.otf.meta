@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: c1a702cdb97396a4aa13d41737cd2f00
+timeCreated: 1521821279
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Font Awesome 5 Free
+  fontNames:
+  - Font Awesome 5 Free
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ec31c7102707fdb45897e6f86eab59a8, type: 3}
+  - {fileID: 12800000, guid: 951290839912516479fecc179dcd2c5c, type: 3}
+  - {fileID: 12800000, guid: 97e139e6834d7a740bd4056da7fe19bf, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
