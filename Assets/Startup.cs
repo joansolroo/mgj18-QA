@@ -23,20 +23,22 @@ public class Startup : MonoBehaviour {
     {
         if (!fastBoot)
         {
-            gc.Activate();
             source.Play();
             workingIntro.SetActive(false);
             brokenIntro.SetActive(false);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             brokenIntro.SetActive(true);
-            yield return new WaitForSeconds(8);
+            yield return new WaitForSeconds(6.3f);
+            gc.Activate();
+            yield return new WaitForSeconds(1.1f);
+            gc.Deactivate();
             brokenIntro.SetActive(false);
             yield return new WaitForSeconds(1);
             workingIntro.SetActive(true);
             yield return new WaitForSeconds(2);
             StartCoroutine("FadeOut");
         }
-        gc.Deactivate(); 
+
         Inbox.SetActive(true);
         }
     IEnumerator FadeOut()

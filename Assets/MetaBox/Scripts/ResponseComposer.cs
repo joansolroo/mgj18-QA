@@ -17,23 +17,28 @@ public class ResponseComposer : MonoBehaviour
     [SerializeField] UnityEngine.UI.Dropdown problem;
 
 
+    bool initialized;
     private void OnEnable()
     {
-        Changed();
+        introduction.value = 8;
+       // introduction.captionText.text = "[write an answer]";
+       
     }
     Mail replyingTo;
     public void Reply(Mail m)
     {
         replyingTo = m;
         header.text = "RE:" + m.title;
+     //   Changed();
     }
     public void Changed()
     {
-
+        Debug.Log("chang");
         subject.gameObject.SetActive(introduction.value == 1);
         auxiliar.gameObject.SetActive(introduction.value == 1);
         problem.gameObject.SetActive(introduction.value == 1);
 
+        introduction.captionText.text = introduction.options[introduction.value].text;
         if (auxiliar.value != 0)
         {
             subject.captionText.text = subject.options[subject.value].text + "'s";
