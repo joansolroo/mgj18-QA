@@ -2,34 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof(GlitchController))]
 public class Startup : MonoBehaviour {
 
     [SerializeField] GameObject brokenIntro;
     [SerializeField] GameObject workingIntro;
     [SerializeField] GameObject Inbox;
 
+    [SerializeField] bool fastBoot = false;
     AudioSource source;
+    GlitchController gc;
     // Use this for initialization
     void Start () {
+        source = GetComponent<AudioSource>();
+        gc = GetComponent<GlitchController>();
         StartCoroutine("RunIntro");
 
-        source = GetComponent<AudioSource>();
-        source.Play();
 	}
     IEnumerator RunIntro()
     {
-        workingIntro.SetActive(false);
-        brokenIntro.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
-        brokenIntro.SetActive(true);
-        yield return new WaitForSeconds(8);
-        brokenIntro.SetActive(false);
-        yield return new WaitForSeconds(1);
-        workingIntro.SetActive(true);
-        yield return new WaitForSeconds(2);
+        if (!fastBoot)
+        {
+            gc.Activate();
+            source.Play();
+            workingIntro.SetActive(false);
+            brokenIntro.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            brokenIntro.SetActive(true);
+            yield return new WaitForSeconds(8);
+            brokenIntro.SetActive(false);
+            yield return new WaitForSeconds(1);
+            workingIntro.SetActive(true);
+            yield return new WaitForSeconds(2);
+            StartCoroutine("FadeOut");
+        }
+        gc.Deactivate(); 
         Inbox.SetActive(true);
-        StartCoroutine("FadeOut");
-    }
+        }
     IEnumerator FadeOut()
     {
         while (source.volume > 0)
