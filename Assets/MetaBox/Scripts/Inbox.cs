@@ -23,11 +23,28 @@ public class Inbox : MonoBehaviour {
     }
     void Start () {
         mailRenderers = new List<MailRenderer>();
-
-        StartCoroutine("AddEmails");
-        //Loading(1);
+       // OpenInbox();
     }
 
+    public void OpenInbox()
+    {
+        StartCoroutine("AddEmails");
+    }
+    public void CloseInbox()
+    {
+        foreach(RectTransform rt in loadingOrder)
+        {
+            rt.gameObject.SetActive(false);
+        }
+
+        for(int m = mailRenderers.Count-1;m>=0;--m)
+        {
+            Destroy(mailRenderers[m].gameObject);
+        }
+        mailRenderers.Clear();
+
+        responseComposer.Close();
+    }
     public void Loading( float time)
     {
         StartCoroutine("LoadingCoroutine", time);

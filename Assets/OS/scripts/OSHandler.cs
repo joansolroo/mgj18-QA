@@ -18,6 +18,18 @@ public class OSHandler : MonoBehaviour {
        // instance.StartCoroutine("RunAndCrash");
         instance.StartCoroutine("LoadGame", instance.scene);
     }
+    public static void Run(string name)
+    {
+        // instance.StartCoroutine("RunAndCrash");
+        instance.StartCoroutine("LoadGame", name);
+    }
+
+    public static void Close(string name)
+    {
+        Application.UnloadLevel(name);
+        instance.desktop.SetActive(true);
+    }
+
     string scene = "world1"; 
     IEnumerator LoadGame(string name){
         desktop.SetActive(false);
