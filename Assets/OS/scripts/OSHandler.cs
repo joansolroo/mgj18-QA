@@ -16,12 +16,17 @@ public class OSHandler : MonoBehaviour {
     public static void Run(Download download)
     {
        // instance.StartCoroutine("RunAndCrash");
-        instance.StartCoroutine("LoadGame", instance.scene);
+        instance.StartCoroutine("LoadWithoutSplash", instance.scene);
     }
     public static void Run(string name)
     {
         // instance.StartCoroutine("RunAndCrash");
         instance.StartCoroutine("LoadGame", name);
+    }
+    public static void RunNow(string name)
+    {
+        // instance.StartCoroutine("RunAndCrash");
+        instance.StartCoroutine("LoadWithoutSplash", name);
     }
 
     public static void Close(string name)
@@ -40,7 +45,13 @@ public class OSHandler : MonoBehaviour {
         Debug.Log("Loading complete");
         instance.unitySplash.SetActive(false);
     }
-
+    IEnumerator LoadWithoutSplash(string name)
+    {
+        desktop.SetActive(false);
+        yield return new WaitForSeconds(2);
+        AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
+        yield return async;
+    }
     public static void Crash(ProgramError error)
     {
         instance.crash.SetActive(true);
