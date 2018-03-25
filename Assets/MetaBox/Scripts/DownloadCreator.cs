@@ -10,7 +10,7 @@ public class DownloadCReator
     {
         Download asset = ScriptableObject.CreateInstance<Download>();
 
-        AssetDatabase.CreateAsset(asset, "Assets/downloads/new_download.asset");
+        AssetDatabase.CreateAsset(asset, AssetDatabase.GetAssetPath(Selection.activeObject) + "/new_download.asset");
         AssetDatabase.SaveAssets();
 
         EditorUtility.FocusProjectWindow();

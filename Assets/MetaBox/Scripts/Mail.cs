@@ -22,9 +22,11 @@ public class Mail : ScriptableObject {
     [SerializeField] public MailRenderer mr;
 
     [SerializeField] public string[] answerOptions;
+    [SerializeField] public string[] answerOptionsAfterPlaying;
+    [SerializeField] public Mail[] replyToAnswers;
 
     [SerializeField] public Mail openOnRead;
-    [SerializeField] public Mail openOnAskforhelp;
+    [SerializeField] public Mail openAfterPlaying;
 
     [SerializeField] public Font customFont;
 }

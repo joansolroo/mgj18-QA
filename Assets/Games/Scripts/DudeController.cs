@@ -11,6 +11,7 @@ public class DudeController : MonoBehaviour
 
     [SerializeField] AudioClip walk;
     AudioSource audio;
+    [SerializeField] Transform visualization;
     // Use this for initialization
 
     void Start()
@@ -42,7 +43,8 @@ public class DudeController : MonoBehaviour
             step = false;
             audio.Stop();
         }
-        rotation.z = Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx));
+        //rotation.z = Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx));
+        visualization.localEulerAngles = new Vector3(0,0,Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx)));
         gameObject.transform.position = gameObject.transform.TransformPoint(0, 0, -dx * movementSpeed * Time.deltaTime);
         gameObject.transform.localEulerAngles = rotation;
     }
