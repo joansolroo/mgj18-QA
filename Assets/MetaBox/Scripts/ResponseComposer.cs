@@ -88,9 +88,11 @@ public class ResponseComposer : MonoBehaviour
         m.avatar = avatar;
         m.content = AsString();
         m.isResponse = true;
+        m.replyingTo = replyingTo;
+        m.fromPlayer = true;
         m.height = 4;
         Debug.Log(m.title + "//" + m.content);
-        Inbox.AddMail(m, replyingTo);
+        Inbox.AddMail(m);
         gameObject.SetActive(false);
 
     }

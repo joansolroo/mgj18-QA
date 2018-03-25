@@ -57,7 +57,7 @@ public class MailRenderer : MonoBehaviour {
     {
         if (!read)
         {
-            read = true;
+            Read();
             title.fontStyle = FontStyle.Italic;
             title.color = new Color32(114, 114, 114, 255);
         }
@@ -67,6 +67,14 @@ public class MailRenderer : MonoBehaviour {
         StartCoroutine("ToggleAnimation");
     }
 
+    private void Read()
+    {
+        read = true;
+        if (mail.openOnRead != null)
+        {
+            Inbox.AddMail(mail.openOnRead);
+        }
+    }
     private void Update()
     {
         

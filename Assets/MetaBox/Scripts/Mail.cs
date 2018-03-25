@@ -9,17 +9,18 @@ public class Mail : ScriptableObject {
         Bughunt, filling
     }
     [SerializeField] public Sprite avatar;
+    [SerializeField] public bool fromPlayer = false;
     [SerializeField] public string title;
     [SerializeField] public string content;
     [SerializeField] public Download download;
     [SerializeField] public int height= 2;
     [SerializeField] public List<Mail> chain;
     [SerializeField] public bool isResponse = false;
+    [SerializeField] public Mail replyingTo = null;
     [SerializeField] public MailRenderer mr;
 
-    [SerializeField] public Mail helpAnswer;
-    [SerializeField] public Mail successAnswer;
-    [SerializeField] public Mail failAnswer;
+    [SerializeField] public Mail openOnRead;
+    [SerializeField] public Mail openOnAskforhelp;
 
     [SerializeField] public Font customFont;
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class Inbox : MonoBehaviour {
+public class Inbox : MonoBehaviour
+{
 
     [SerializeField] List<Mail> mails;
     [SerializeField] MailRenderer mailPrefab;
@@ -24,10 +25,11 @@ public class Inbox : MonoBehaviour {
     {
         instance = this;
     }
-    void Start () {
+    void Start()
+    {
         mailRenderers = new List<MailRenderer>();
         audio = GetComponent<AudioSource>();
-       // OpenInbox();
+        // OpenInbox();
     }
 
     public void OpenInbox()
@@ -37,12 +39,12 @@ public class Inbox : MonoBehaviour {
     }
     public void CloseInbox()
     {
-        foreach(RectTransform rt in loadingOrder)
+        foreach (RectTransform rt in loadingOrder)
         {
             rt.gameObject.SetActive(false);
         }
 
-        for(int m = mailRenderers.Count-1;m>=0;--m)
+        for (int m = mailRenderers.Count - 1; m >= 0; --m)
         {
             Destroy(mailRenderers[m].gameObject);
         }
@@ -50,7 +52,7 @@ public class Inbox : MonoBehaviour {
 
         responseComposer.Close();
     }
-    public void Loading( float time)
+    public void Loading(float time)
     {
         StartCoroutine("LoadingCoroutine", time);
     }
@@ -64,7 +66,7 @@ public class Inbox : MonoBehaviour {
 
     private IEnumerator AddEmails()
     {
-       
+
         foreach (RectTransform rt in loadingOrder)
         {
             rt.gameObject.SetActive(false);
@@ -82,7 +84,7 @@ public class Inbox : MonoBehaviour {
             MailRenderer mr = Instantiate(mailPrefab);
             mr.mail = m;
             m.mr = mr;
-            mailRenderers.Insert(0,mr);
+            mailRenderers.Insert(0, mr);
             mr.height = 2;
             UpdateLayout();
             yield return new WaitForSeconds(0.05f);
@@ -98,27 +100,33 @@ public class Inbox : MonoBehaviour {
                 UpdateLayout();
                 yield return new WaitForSeconds(0.05f);
             }
-           
+
         }
         loadingLayer.SetActive(false);
     }
-    public static void AddMail(Mail m, Mail ReplyingTo)
+    public static void AddMail(Mail m, float delay = 4)
     {
-        instance.audio.Play();
-        instance.StartCoroutine(instance.PerformAddEmail(m, ReplyingTo));
-    }
-    
-    private IEnumerator PerformAddEmail(Mail m, Mail replyingTo)
-    {
-        loadingLayer.SetActive(true);
         
+        Mail ReplyingTo = m.replyingTo;
+        instance.StartCoroutine(instance.PerformAddEmail(m, ReplyingTo, delay));
+    }
+
+    private IEnumerator PerformAddEmail(Mail m, Mail replyingTo, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (!m.fromPlayer)
+        {
+            instance.audio.Play();
+        }
+        loadingLayer.SetActive(true);
+
         MailRenderer mr = Instantiate(mailPrefab);
         mr.mail = m;
         int position = 0;
         if (replyingTo != null)
         {
-            int parent=-1;
-            for(int idx = 0; idx < mailRenderers.Count; ++idx)
+            int parent = -1;
+            for (int idx = 0; idx < mailRenderers.Count; ++idx)
             {
                 if (mailRenderers[idx].id == replyingTo.mr.id)
                 {
@@ -136,9 +144,9 @@ public class Inbox : MonoBehaviour {
                     }
                 }
             }
-            
+
         }
-        mailRenderers.Insert(position,mr);
+        mailRenderers.Insert(position, mr);
         mr.height = 2;
         UpdateLayout();
         yield return new WaitForSeconds(0.25f);
@@ -149,12 +157,13 @@ public class Inbox : MonoBehaviour {
     {
         float offset = -60;
         int idx = 0;
-        foreach(MailRenderer mr in mailRenderers) {
+        foreach (MailRenderer mr in mailRenderers)
+        {
             mr.index = idx++;
             offset = UpdateMailRenderer(mr, offset);
         }
         RectTransform container = emailRegion.parent.GetComponent<RectTransform>();
-        container.sizeDelta = new Vector2(0, offset+180);
+        container.sizeDelta = new Vector2(0, offset + 180);
     }
     float UpdateMailRenderer(MailRenderer mr, float offset)
     {
@@ -174,8 +183,8 @@ public class Inbox : MonoBehaviour {
         return offset;
     }
     public void Reply(Mail mail)
-    { 
+    {
         responseComposer.gameObject.SetActive(true);
         responseComposer.Reply(mail);
-    } 
+    }
 }
