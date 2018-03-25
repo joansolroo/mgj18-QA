@@ -17,7 +17,7 @@ public class DudeController : MonoBehaviour {
         float dr = Input.GetAxis("Horizontal");
         float dx = Input.GetAxis("Vertical");
         speed.x = dx; speed.y = dr;
-        Debug.Log("dr:" + dx + " dy:" + dx);
+       // Debug.Log("dr:" + dx + " dy:" + dx);
         Vector3 rotation = gameObject.transform.localEulerAngles;
         rotation.y += dr*rotationSpeed*Time.deltaTime;
         rotation.z = Mathf.Lerp(0,Mathf.Sin(Time.time*10) * 35/2, Mathf.Abs(dx));

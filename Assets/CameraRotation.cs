@@ -17,7 +17,7 @@ public class CameraRotation : MonoBehaviour {
         {
             oldPos = m_Event.mousePosition;
             euler = this.transform.localEulerAngles;
-            Debug.Log("Mouse Down.");
+          //  Debug.Log("Mouse Down.");
         }
 
         if (m_Event.type == EventType.MouseDrag)
@@ -26,7 +26,7 @@ public class CameraRotation : MonoBehaviour {
             euler.y += newPos.x - oldPos.x;
             oldPos = m_Event.mousePosition;
             this.transform.localEulerAngles = euler;
-            Debug.Log("Mouse Dragged.");
+         //   Debug.Log("Mouse Dragged.");
         }
         if (follow != null)
         {
@@ -35,7 +35,7 @@ public class CameraRotation : MonoBehaviour {
 
         if (m_Event.type == EventType.MouseUp)
         {
-            Debug.Log("Mouse Up.");
+//Debug.Log("Mouse Up.");
         }
     }
 }
