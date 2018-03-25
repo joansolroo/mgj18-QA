@@ -14,27 +14,40 @@ public class Startup : MonoBehaviour
 
     GlitchController gc;
 
+    public int chapter = 1;
     // Use this for initialization
     void Start()
     {
         gc = GetComponent<GlitchController>();
+
+        switch (chapter)
+        {
+            case 1:
+                StartCoroutine(RunIntro());
+                break;
+            case 2:
+                OSHandler.instance.StartCoroutine("Reboot");
+                break;
+        }
         if (fastBoot)
         {
 
-            OSHandler.instance.StartCoroutine("Reboot");
+          
         }
-        else
+        if(chapter == 1) 
         {
-            OSHandler.instance.StartCoroutine("RunIntro");
+            
+            //OSHandler.instance.StartCoroutine("RunIntro");
         }
     }
     IEnumerator RunIntro()
     {
-        OSHandler.Run("world1");
+        OSHandler.RunNow("world1");
+        Debug.Log("introooo");
         yield return new WaitForSeconds(timeUntilCrash);
         gc.Activate(4);
         yield return new WaitForSeconds(timeBeforeBSOD);
-        StartCoroutine("HardCrash");
+        OSHandler.instance.StartCoroutine("HardCrash");
         OSHandler.Close("world1");
     }
 }

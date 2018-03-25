@@ -40,7 +40,7 @@ public class OSHandler : MonoBehaviour {
     }
     public static void Run(Download download)
     {
-        instance.StartCoroutine("LoadWithoutSplash", download.game);
+        Run(download.game);
     }
     public static void Run(string name)
     {
@@ -128,11 +128,12 @@ public class OSHandler : MonoBehaviour {
             workingIntro.SetActive(true);
             yield return new WaitForSeconds(2.75f);
             StartCoroutine("FadeOut");
+            yield return new WaitForSeconds(2.0f);
         }
         workingIntro.SetActive(false);
         inbox.gameObject.SetActive(true);
         inbox.OpenInbox();
-        yield return new WaitForSeconds(2.0f);
+        
     }
     IEnumerator FadeOut()
     {

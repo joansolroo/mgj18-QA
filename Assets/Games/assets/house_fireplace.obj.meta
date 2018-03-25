@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: 3c6efc30b10edab4292016693dbba773
-timeCreated: 1521923494
+guid: 9d14a7d16dc4d84409ee021f0f1bb652
+timeCreated: 1522004504
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: house_2
+    100000: house_fireplace
     100002: //RootNode
-    400000: house_2
+    400000: house_fireplace
     400002: //RootNode
-    2300000: house_2
-    3300000: house_2
-    4300000: house_2
+    2300000: house_fireplace
+    3300000: house_fireplace
+    4300000: house_fireplace
   materials:
     importMaterials: 1
     materialName: 0
@@ -43,10 +43,10 @@ ModelImporter:
     addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
-    keepQuads: 1
+    keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -54,7 +54,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 99
+    normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
   importAnimation: 1

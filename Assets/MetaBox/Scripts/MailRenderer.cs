@@ -31,7 +31,7 @@ public class MailRenderer : MonoBehaviour {
     void Start () {
         avatar.sprite = mail.avatar;
         title.text = mail.title;
-        content.text = mail.content;
+        content.text = mail.content.Replace("\\n","\n");
         downloadButton.gameObject.SetActive(mail.download!=null);
         readMore.enabled = !expanded && mail.height > 2;
 

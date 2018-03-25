@@ -14,10 +14,14 @@ public class Mail : ScriptableObject {
     [SerializeField] public string content;
     [SerializeField] public Download download;
     [SerializeField] public int height= 2;
+
     [SerializeField] public List<Mail> chain;
     [SerializeField] public bool isResponse = false;
     [SerializeField] public Mail replyingTo = null;
+
     [SerializeField] public MailRenderer mr;
+
+    [SerializeField] public string[] answerOptions;
 
     [SerializeField] public Mail openOnRead;
     [SerializeField] public Mail openOnAskforhelp;

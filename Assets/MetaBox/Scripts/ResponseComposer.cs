@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResponseComposer : MonoBehaviour
 {
@@ -33,6 +34,13 @@ public class ResponseComposer : MonoBehaviour
     {
         replyingTo = m;
         header.text = "RE:" + m.title;
+
+        introduction.options.Clear();
+        foreach(string a in m.answerOptions)
+        {
+            introduction.options.Add(new Dropdown.OptionData(a));
+            introduction.value = 0;
+        }
         //   Changed();
     }
     public void Changed()
@@ -92,7 +100,7 @@ public class ResponseComposer : MonoBehaviour
         m.fromPlayer = true;
         m.height = 4;
         Debug.Log(m.title + "//" + m.content);
-        Inbox.AddMail(m);
+        Inbox.AddMail(m,0);
         gameObject.SetActive(false);
 
     }
