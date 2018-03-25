@@ -12,6 +12,11 @@ public class TriggerToggle : MonoBehaviour {
     {
         HideImmediately();
     }
+    private void LateUpdate()
+    {
+        Vector3 targetAngle = CameraRotation.instance.transform.eulerAngles + new Vector3(0, -13, 0);
+        visualization.transform.rotation = Quaternion.RotateTowards(visualization.transform.rotation,Quaternion.Euler(targetAngle),Quaternion.Angle(visualization.transform.rotation, Quaternion.Euler(targetAngle)) * Time.deltaTime*5);
+    }
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")

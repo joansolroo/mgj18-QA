@@ -8,6 +8,11 @@ public class CameraRotation : MonoBehaviour {
     Vector2 newPos;
     Vector3 euler;
 
+    public static CameraRotation instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     [SerializeField] Transform follow;
     void OnGUI()
     {
