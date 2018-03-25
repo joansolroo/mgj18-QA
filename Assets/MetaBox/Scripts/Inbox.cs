@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Inbox : MonoBehaviour {
 
     [SerializeField] List<Mail> mails;
@@ -14,6 +15,8 @@ public class Inbox : MonoBehaviour {
     [SerializeField] RectTransform[] loadingOrder;
 
     [SerializeField] ResponseComposer responseComposer;
+
+    new AudioSource audio;
     // Use this for initialization
 
     public static Inbox instance;
@@ -23,11 +26,13 @@ public class Inbox : MonoBehaviour {
     }
     void Start () {
         mailRenderers = new List<MailRenderer>();
+        audio = GetComponent<AudioSource>();
        // OpenInbox();
     }
 
     public void OpenInbox()
     {
+        gameObject.SetActive(true);
         StartCoroutine("AddEmails");
     }
     public void CloseInbox()
@@ -99,8 +104,10 @@ public class Inbox : MonoBehaviour {
     }
     public static void AddMail(Mail m, Mail ReplyingTo)
     {
+        instance.audio.Play();
         instance.StartCoroutine(instance.PerformAddEmail(m, ReplyingTo));
     }
+    
     private IEnumerator PerformAddEmail(Mail m, Mail replyingTo)
     {
         loadingLayer.SetActive(true);

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e0a102365caf5e447bf104664dbbb447
+timeCreated: 1522000984
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: HACKED
+  fontNames:
+  - HACKED
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

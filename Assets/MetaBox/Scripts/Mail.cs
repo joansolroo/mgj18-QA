@@ -20,4 +20,6 @@ public class Mail : ScriptableObject {
     [SerializeField] public Mail helpAnswer;
     [SerializeField] public Mail successAnswer;
     [SerializeField] public Mail failAnswer;
+
+    [SerializeField] public Font customFont;
 }

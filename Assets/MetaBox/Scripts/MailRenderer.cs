@@ -35,6 +35,12 @@ public class MailRenderer : MonoBehaviour {
         downloadButton.gameObject.SetActive(mail.download!=null);
         readMore.enabled = !expanded && mail.height > 2;
 
+        if (mail.customFont != null)
+        {
+            title.font = mail.customFont;
+            content.font = mail.customFont;
+        }
+
         height = 2;
         targetHeight = height;
 
