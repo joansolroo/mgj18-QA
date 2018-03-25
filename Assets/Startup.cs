@@ -33,14 +33,15 @@ public class Startup : MonoBehaviour {
             yield return new WaitForSeconds(1.1f);
             gc.Deactivate();
             brokenIntro.SetActive(false);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.25f);
             workingIntro.SetActive(true);
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2.75f);
             StartCoroutine("FadeOut");
         }
 
         Inbox.SetActive(true);
-        }
+        yield return new WaitForSeconds(2.0f);
+    }
     IEnumerator FadeOut()
     {
         while (source.volume > 0)
