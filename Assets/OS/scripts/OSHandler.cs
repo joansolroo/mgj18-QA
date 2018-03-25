@@ -7,6 +7,7 @@ public class OSHandler : MonoBehaviour {
     [SerializeField] public GameObject unitySplash; //TODO remove later
     [SerializeField] public GameObject crash;
 
+    [SerializeField] public GameObject desktop;
     static OSHandler instance;
     private void Awake()
     {
@@ -14,7 +15,18 @@ public class OSHandler : MonoBehaviour {
     }
     public static void Run(Download download)
     {
-        instance.StartCoroutine("RunAndCrash");
+       // instance.StartCoroutine("RunAndCrash");
+        instance.StartCoroutine("LoadGame", instance.scene);
+    }
+    string scene = "world1"; 
+    IEnumerator LoadGame(string name){
+        desktop.SetActive(false);
+        instance.unitySplash.SetActive(true);
+        yield return new WaitForSeconds(2);
+        AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
+        yield return async;
+        Debug.Log("Loading complete");
+        instance.unitySplash.SetActive(false);
     }
 
     public static void Crash(ProgramError error)
@@ -37,5 +49,6 @@ public class OSHandler : MonoBehaviour {
     public void ProgramExit()
     {
         instance.unitySplash.SetActive(false);
+        desktop.SetActive(true);
     }
 }
