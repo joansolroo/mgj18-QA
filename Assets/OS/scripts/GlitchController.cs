@@ -8,13 +8,17 @@ public class GlitchController : MonoBehaviour {
     [SerializeField] Kino.DigitalGlitch digital;
     [SerializeField] Kino.AnalogGlitch analog;
 
-    public void Activate(int intensity = 1)
+    public void Activate(int intensity = 1, bool vSync = false)
     {
         digital.enabled = true;
         analog.enabled = true;
 
         digital.intensity = Mathf.MoveTowards(digital.intensity, 0.012f*intensity, Time.deltaTime * 5);
         analog.colorDrift = Mathf.MoveTowards(analog.colorDrift, 0.047f*intensity, Time.deltaTime * 5);
+        if (vSync)
+        {
+            analog.verticalJump = Mathf.MoveTowards(analog.verticalJump, 0.1f * intensity, Time.deltaTime * 5);
+        }
         analog.scanLineJitter = Mathf.MoveTowards(analog.scanLineJitter, 0.05f*intensity, Time.deltaTime * 5);
     }
 
