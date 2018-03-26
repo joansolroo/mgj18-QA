@@ -52,7 +52,7 @@ public class ResponseComposer : MonoBehaviour
                 introduction.value = 0;
             }
         }
-        
+
         //   Changed();
     }
     public void Changed()
@@ -81,7 +81,7 @@ public class ResponseComposer : MonoBehaviour
     string DottedLine(int length)
     {
         string result = "";
-        for(int i = 0; i < length+1; i++)
+        for (int i = 0; i < length + 1; i++)
         {
             result += ". ";
         }
@@ -115,9 +115,10 @@ public class ResponseComposer : MonoBehaviour
         m.height = 4;
         Debug.Log(m.title + "//" + m.content);
         Inbox.AddMail(m, 0);
-        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Length >= answerIdx && replyingTo.replyToAnswers[answerIdx] != null)
+        int realIdx = Inbox.indexedEmails[replyingTo.id].played ? answerIdx + replyingTo.answerOptions.Length : answerIdx;
+        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Length >= realIdx && replyingTo.replyToAnswers[realIdx] != null)
         {
-            Inbox.AddMail(replyingTo.replyToAnswers[answerIdx]);
+            Inbox.AddMail(replyingTo.replyToAnswers[realIdx]);
         }
         Debug.Log(m.id);
         //Inbox.AddMail();

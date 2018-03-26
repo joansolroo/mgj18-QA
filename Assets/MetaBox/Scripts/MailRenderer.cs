@@ -132,9 +132,10 @@ public class MailRenderer : MonoBehaviour
     }
     public void AttachmentWasOpen()
     {
-        if (mail.openOnRead != null)
+        if (mail.openAfterPlaying != null)
         {
             Inbox.AddMail(mail.openAfterPlaying);
         }
+        played = true;
     }
 }
