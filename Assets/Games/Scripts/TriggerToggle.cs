@@ -19,7 +19,7 @@ public class TriggerToggle : MonoBehaviour {
         wasActive = active;
     }
     bool wasActive = false;
-    private void LateUpdate()
+    private void Update()
     {
         if (active && !wasActive)
         {
