@@ -14,9 +14,10 @@ public class OSHandler : MonoBehaviour {
     [SerializeField] int timeBSOD = 2;
 
     [SerializeField] GameObject brokenIntro;
+    [SerializeField] GameObject middleIntro;
     [SerializeField] GameObject workingIntro;
     [SerializeField] Inbox inbox;
-
+    [SerializeField] float demonRatio = 0.05f;
     [SerializeField] bool fastBoot = false;
     AudioSource source;
     [SerializeField] AudioClip bootClip;
@@ -124,12 +125,17 @@ public class OSHandler : MonoBehaviour {
             yield return new WaitForSeconds(1.1f);
             gc.Deactivate();
             brokenIntro.SetActive(false);
-            yield return new WaitForSeconds(0.25f);
+            middleIntro.SetActive(true);
+            yield return new WaitForSeconds(3f*demonRatio);
+            middleIntro.GetComponent<AudioLowPassFilter>().enabled = false;
+            middleIntro.GetComponent<SoundGlitch>().enabled = false;
+            middleIntro.GetComponent<IsGlitched>().enabled = false;
             workingIntro.SetActive(true);
-            yield return new WaitForSeconds(2.75f);
+            yield return new WaitForSeconds(3*(1- demonRatio));
             StartCoroutine("FadeOut");
             yield return new WaitForSeconds(2.0f);
         }
+        middleIntro.SetActive(false);
         workingIntro.SetActive(false);
         inbox.gameObject.SetActive(true);
         inbox.OpenInbox();

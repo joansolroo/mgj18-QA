@@ -10,7 +10,7 @@ public class Inbox : MonoBehaviour
     [SerializeField] MailRenderer mailPrefab;
 
     [SerializeField] Transform emailRegion;
-    List<MailRenderer> mailRenderers;
+    [SerializeField] List<MailRenderer> mailRenderers; //DEBUG exposing
     [SerializeField] GameObject loadingLayer;
 
     [SerializeField] RectTransform[] loadingOrder;
@@ -106,14 +106,31 @@ public class Inbox : MonoBehaviour
     }
     public static void AddMail(Mail m, float delay = 4)
     {
-        
-        Mail ReplyingTo = m.replyingTo;
-        instance.StartCoroutine(instance.PerformAddEmail(m, ReplyingTo, delay));
+        if(m.replyingTo != null)
+        {
+            Debug.Log("new mail" + m.id+",replying to " + m.replyingTo.id);
+        }
+        else { Debug.Log("new mail" + m.id); }
+       
+        Mail replyingTo = m.replyingTo;
+        if (delay > 0)
+        {
+            instance.StartCoroutine(instance.PerformAddEmail(m, replyingTo, delay));
+        }
+        else
+        {
+            instance.StartCoroutine(instance.PerformAddEmail(m, replyingTo));
+        }
     }
 
     private IEnumerator PerformAddEmail(Mail m, Mail replyingTo, float delay)
     {
         yield return new WaitForSeconds(delay);
+        instance.StartCoroutine(instance.PerformAddEmail(m, replyingTo));
+    }
+
+    private IEnumerator PerformAddEmail(Mail m, Mail replyingTo)
+    {
         if (!m.fromPlayer)
         {
             instance.audio.Play();
@@ -128,19 +145,25 @@ public class Inbox : MonoBehaviour
             int parent = -1;
             for (int idx = 0; idx < mailRenderers.Count; ++idx)
             {
-                if (mailRenderers[idx].id == replyingTo.mr.id)
+                if (mailRenderers[idx].mail.id == replyingTo.id)
                 {
+                    Debug.Log("Parent found:" + idx + "(" + mailRenderers[idx].mail.title);
                     parent = idx;
                     break;
                 }
             }
             if (parent != -1)
             {
+                position = parent+1;
                 for (int idx2 = parent + 1; idx2 < mailRenderers.Count; ++idx2)
                 {
                     if (!mailRenderers[idx2].mail.isResponse)
                     {
-                        position = idx2;
+                        break;
+                    }
+                    else
+                    {
+                        position = idx2+1;
                     }
                 }
             }

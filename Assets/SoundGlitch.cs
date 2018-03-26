@@ -13,13 +13,20 @@ public class SoundGlitch : MonoBehaviour {
     // Use this for initialization
     void Start () {
         audio = GetComponent<AudioSource>();
-	}
-	
+        targetPitch = audio.pitch;
+
+    }
+
+    float targetPitch;
 	// Update is called once per frame
 	void Update () {
         if (activate)
         {
-            audio.pitch = Mathf.MoveTowards(audio.pitch,Random.Range(minPitch, maxPitch),maxSpeed);
+            if (Random.value > 0.05)
+            {
+                targetPitch = Random.Range(minPitch, maxPitch);
+            }
+            audio.pitch = Mathf.MoveTowards(audio.pitch,targetPitch,maxSpeed);
         }
 	}
 }

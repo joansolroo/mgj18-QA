@@ -5,7 +5,7 @@ using UnityEngine;
 public class DownloadRenderer : MonoBehaviour {
 
     [SerializeField] float progress = 0;
-    [SerializeField] Download download;
+    [SerializeField] public Download download;
 
     [SerializeField] UnityEngine.UI.Text fileNameText;
     [SerializeField] UnityEngine.RectTransform progressBar;
@@ -32,6 +32,8 @@ public class DownloadRenderer : MonoBehaviour {
             if (progress >= 1)
             {
                 progressBar.GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 145, 255,255);
+                StartCoroutine(StartAnimationDone());
+
             }
             else
             {
@@ -46,6 +48,16 @@ public class DownloadRenderer : MonoBehaviour {
        
      }
 
+    
+    IEnumerator StartAnimationDone()
+    {
+        Vector3 scale = this.transform.localScale;
+        for (float t = 0; t < 1; t += 0.05f)
+        {
+            this.transform.localScale = scale + Vector3.one*Mathf.Sin(t * 5)*0.05f;
+            yield return new WaitForEndOfFrame();
+        }
+    }
     public void RunProgram()
     {
         if (progress < 1)
@@ -54,8 +66,21 @@ public class DownloadRenderer : MonoBehaviour {
         }
         else
         {
-            OSHandler.Run(download);
+            StartCoroutine(StartRunProgram());
         }
     }
-    
+    bool running = false;
+    IEnumerator StartRunProgram()
+    {
+        if (!running)
+        {
+            running = true;
+            StartCoroutine(StartAnimationDone());
+            yield return new WaitForSeconds(0.25f);
+            //OSHandler.Run(download);
+            download.mailRenderer.AttachmentWasOpen();
+        }
+        yield return new WaitForSeconds(0.25f);
+        running = false;
+    }
 }

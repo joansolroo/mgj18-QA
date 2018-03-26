@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Mail : ScriptableObject {
 
+    private static int MAX_ID = 0;
+    public int id = ++MAX_ID;
     public enum MailType
     {
         Bughunt, filling

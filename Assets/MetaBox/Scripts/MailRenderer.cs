@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MailRenderer : MonoBehaviour {
 
-    private static int MAX_ID = 0;
-    public int id = ++MAX_ID;
+   
     [SerializeField] public Mail mail;
     [SerializeField] UnityEngine.UI.Image avatar;
     [SerializeField] UnityEngine.UI.Text title;
@@ -32,7 +31,15 @@ public class MailRenderer : MonoBehaviour {
         avatar.sprite = mail.avatar;
         title.text = mail.title;
         content.text = mail.content.Replace("\\n","\n");
-        downloadButton.gameObject.SetActive(mail.download!=null);
+        if (mail.download != null)
+        {
+            downloadButton.gameObject.SetActive(true);
+            mail.download.mailRenderer = this;
+        }
+        else
+        {
+            downloadButton.gameObject.SetActive(false);
+        }
         readMore.enabled = !expanded && mail.height > 2;
 
         if (mail.customFont != null)
@@ -44,7 +51,7 @@ public class MailRenderer : MonoBehaviour {
         height = 2;
         targetHeight = height;
 
-        reply.gameObject.SetActive(!mail.isResponse);
+        reply.gameObject.SetActive(!mail.isResponse && read);
 
         rt = GetComponent<RectTransform>(); 
         StartCoroutine("CreateAnimation");
@@ -69,7 +76,11 @@ public class MailRenderer : MonoBehaviour {
 
     private void Read()
     {
-        read = true;
+        if (!read)
+        {
+            read = true;
+            reply.gameObject.SetActive(!mail.isResponse && read);
+        }
         if (mail.openOnRead != null)
         {
             Inbox.AddMail(mail.openOnRead);
@@ -114,5 +125,12 @@ public class MailRenderer : MonoBehaviour {
     public void Reply()
     {
         inbox.Reply(mail);
+    }
+    public void AttachmentWasOpen()
+    {
+        if (mail.openOnRead != null)
+        {
+            Inbox.AddMail(mail.openAfterPlaying);
+        }
     }
 }

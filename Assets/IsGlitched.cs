@@ -10,7 +10,7 @@ public class IsGlitched : MonoBehaviour {
     int level;
     private void OnEnable()
     {
-        glitchController.Activate(level);
+        glitchController.Activate(level,true);
     }
     private void OnDisable()
     {

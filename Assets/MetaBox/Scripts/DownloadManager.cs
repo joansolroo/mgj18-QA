@@ -36,6 +36,7 @@ public class DownloadManager : MonoBehaviour
     public static void AddDownload(Download download)
     {
         DownloadRenderer dr = GameObject.Instantiate<DownloadRenderer>(instance.downloadRenderer);
+        dr.download = download;
         dr.transform.SetParent(instance.transform);
         dr.transform.localScale = Vector3.one;
         dr.GetComponent<RectTransform>().anchoredPosition = new Vector3((dr.width+10)*instance.downloads.Count, -33);

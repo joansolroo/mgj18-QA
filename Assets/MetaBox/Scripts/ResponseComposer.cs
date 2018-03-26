@@ -27,7 +27,6 @@ public class ResponseComposer : MonoBehaviour
     {
         introduction.value = 8;
         // introduction.captionText.text = "[write an answer]";
-
     }
     Mail replyingTo;
     public void Reply(Mail m)
@@ -46,23 +45,24 @@ public class ResponseComposer : MonoBehaviour
     public void Changed()
     {
         Debug.Log("chang");
-        subject.gameObject.SetActive(introduction.value == 1);
-        auxiliar.gameObject.SetActive(introduction.value == 1);
-        problem.gameObject.SetActive(introduction.value == 1);
+        subject.gameObject.SetActive(false/*introduction.value == 1*/);
+        auxiliar.gameObject.SetActive(false/*introduction.value == 1*/);
+        problem.gameObject.SetActive(false/*introduction.value == 1*/);
 
         introduction.captionText.text = introduction.options[introduction.value].text;
-        if (auxiliar.value != 0)
-        {
-            subject.captionText.text = subject.options[subject.value].text + "'s";
-        }
-        else
-        {
-            subject.captionText.text = subject.options[subject.value].text;
-        }
         introduction_underline.text = DottedLine(introduction.captionText.text.Length);
-        subject_underline.text = DottedLine(subject.captionText.text.Length);
-        auxiliar_underline.text = DottedLine(auxiliar.captionText.text.Length);
-        problem_underline.text = DottedLine(problem.captionText.text.Length);
+        /* if (auxiliar.value != 0)
+         {
+             subject.captionText.text = subject.options[subject.value].text + "'s";
+         }
+         else
+         {
+             subject.captionText.text = subject.options[subject.value].text;
+         }
+
+         subject_underline.text = DottedLine(subject.captionText.text.Length);
+         auxiliar_underline.text = DottedLine(auxiliar.captionText.text.Length);
+         problem_underline.text = DottedLine(problem.captionText.text.Length);*/
     }
     string DottedLine(int length)
     {
@@ -76,7 +76,7 @@ public class ResponseComposer : MonoBehaviour
     public string AsString()
     {
         string result = "Hi, \n" + introduction.captionText.text;
-        if (introduction.value == 1)
+        /*if (introduction.value == 1)
         {
             result += subject.captionText.text + " ";
             if (auxiliar.value != 0)
@@ -84,7 +84,7 @@ public class ResponseComposer : MonoBehaviour
                 result += auxiliar.captionText.text + " ";
             }
             result += problem.captionText.text;
-        }
+        }*/ // WE REMOVED THE CUSTOM ANSWER COMPOSITION GIVEN TIME CONSTRAINTS
         result += "\nBest,\n*PAC";
 
         return result;
@@ -102,8 +102,8 @@ public class ResponseComposer : MonoBehaviour
         Debug.Log(m.title + "//" + m.content);
         Inbox.AddMail(m,0);
         gameObject.SetActive(false);
-
     }
+
     public void Close()
     {
         gameObject.SetActive(false);
