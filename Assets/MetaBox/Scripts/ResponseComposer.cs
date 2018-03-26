@@ -107,6 +107,5 @@ public class ResponseComposer : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
-
     }
 }

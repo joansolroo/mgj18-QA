@@ -57,6 +57,7 @@ public class DownloadRenderer : MonoBehaviour {
             this.transform.localScale = scale + Vector3.one*Mathf.Sin(t * 5)*0.05f;
             yield return new WaitForEndOfFrame();
         }
+        this.transform.localScale = Vector3.one;
     }
     public void RunProgram()
     {
@@ -77,7 +78,7 @@ public class DownloadRenderer : MonoBehaviour {
             running = true;
             StartCoroutine(StartAnimationDone());
             yield return new WaitForSeconds(0.25f);
-            //OSHandler.Run(download);
+            OSHandler.Run(download);
             download.mailRenderer.AttachmentWasOpen();
         }
         yield return new WaitForSeconds(0.25f);

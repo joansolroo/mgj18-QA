@@ -45,17 +45,22 @@ public class OSHandler : MonoBehaviour {
     }
     public static void Run(string name)
     {
-        instance.StartCoroutine("LoadGame", name);
+        instance.StartCoroutine("LoadWithoutSplash", name);
     }
     public static void RunNow(string name)
     {
         instance.StartCoroutine("LoadWithoutSplash", name);
     }
 
+    string lastScene;
     public static void Close(string name)
     {
         Application.UnloadLevel(name);
         instance.desktop.SetActive(true);
+    }
+    public static void CloseLast()
+    {
+        Close(instance.lastScene);
     }
     IEnumerator LoadGame(string name){
         desktop.SetActive(false);
@@ -65,6 +70,7 @@ public class OSHandler : MonoBehaviour {
         yield return async;
         Debug.Log("Loading complete");
         instance.unitySplash.SetActive(false);
+        lastScene = name;
     }
     IEnumerator LoadWithoutSplash(string name)
     {
@@ -72,6 +78,7 @@ public class OSHandler : MonoBehaviour {
         yield return new WaitForSeconds(2);
         AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
         yield return async;
+        lastScene = name;
     }
     
     public static void Crash(ProgramError error)
