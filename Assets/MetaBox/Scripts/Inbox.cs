@@ -10,7 +10,8 @@ public class Inbox : MonoBehaviour
     [SerializeField] MailRenderer mailPrefab;
 
     [SerializeField] Transform emailRegion;
-    [SerializeField] List<MailRenderer> mailRenderers; //DEBUG exposing
+    List<MailRenderer> mailRenderers; //DEBUG exposing
+    public static Dictionary<int,MailRenderer> indexedEmails = new Dictionary<int, MailRenderer>(); //DEBUG exposing
     [SerializeField] GameObject loadingLayer;
 
     [SerializeField] RectTransform[] loadingOrder;
@@ -82,8 +83,8 @@ public class Inbox : MonoBehaviour
         foreach (Mail m in mails)
         {
             MailRenderer mr = Instantiate(mailPrefab);
+            indexedEmails[m.id] = mr;
             mr.mail = m;
-            m.mr = mr;
             mailRenderers.Insert(0, mr);
             mr.height = 2;
             UpdateLayout();
@@ -94,7 +95,6 @@ public class Inbox : MonoBehaviour
                 MailRenderer mr2 = Instantiate(mailPrefab);
                 mr2.mail = m2;
                 m2.title = "RE: " + m.title;
-                m2.mr = mr2;
                 mailRenderers.Insert(++idx, mr2);
                 mr2.height = 2;
                 UpdateLayout();
@@ -104,7 +104,7 @@ public class Inbox : MonoBehaviour
         }
         loadingLayer.SetActive(false);
     }
-    public static void AddMail(Mail m, float delay = 4)
+    public static void AddMail(Mail m, float delay = 2)
     {
         if(m.replyingTo != null)
         {
@@ -138,6 +138,7 @@ public class Inbox : MonoBehaviour
         loadingLayer.SetActive(true);
 
         MailRenderer mr = Instantiate(mailPrefab);
+        indexedEmails[m.id] = mr;
         mr.mail = m;
         int position = 0;
         if (replyingTo != null)

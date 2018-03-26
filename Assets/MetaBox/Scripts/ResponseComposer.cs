@@ -29,22 +29,36 @@ public class ResponseComposer : MonoBehaviour
         // introduction.captionText.text = "[write an answer]";
     }
     Mail replyingTo;
+    [SerializeField] int answerIdx;
     public void Reply(Mail m)
     {
         replyingTo = m;
         header.text = "RE:" + m.title;
 
         introduction.options.Clear();
-        foreach(string a in m.answerOptions)
+        if (Inbox.indexedEmails[m.id].played)
         {
-            introduction.options.Add(new Dropdown.OptionData(a));
-            introduction.value = 0;
+            foreach (string a in m.answerOptionsAfterPlaying)
+            {
+                introduction.options.Add(new Dropdown.OptionData(a));
+                introduction.value = 0;
+            }
         }
+        else
+        {
+            foreach (string a in m.answerOptions)
+            {
+                introduction.options.Add(new Dropdown.OptionData(a));
+                introduction.value = 0;
+            }
+        }
+        
         //   Changed();
     }
     public void Changed()
     {
         Debug.Log("chang");
+        answerIdx = introduction.value;
         subject.gameObject.SetActive(false/*introduction.value == 1*/);
         auxiliar.gameObject.SetActive(false/*introduction.value == 1*/);
         problem.gameObject.SetActive(false/*introduction.value == 1*/);
@@ -100,7 +114,17 @@ public class ResponseComposer : MonoBehaviour
         m.fromPlayer = true;
         m.height = 4;
         Debug.Log(m.title + "//" + m.content);
-        Inbox.AddMail(m,0);
+        Inbox.AddMail(m, 0);
+        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Length >= answerIdx && replyingTo.replyToAnswers[answerIdx] != null)
+        {
+            Inbox.AddMail(replyingTo.replyToAnswers[answerIdx]);
+        }
+        Debug.Log(m.id);
+        //Inbox.AddMail();
+        if (Inbox.indexedEmails[replyingTo.id].expanded)
+        {
+            Inbox.indexedEmails[replyingTo.id].Toggle();
+        }
         gameObject.SetActive(false);
     }
 

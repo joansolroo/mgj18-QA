@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mail : ScriptableObject {
 
     private static int MAX_ID = 0;
-    public int id = ++MAX_ID;
+    [SerializeField] public int id = ++MAX_ID;
     public enum MailType
     {
         Bughunt, filling
@@ -20,8 +20,6 @@ public class Mail : ScriptableObject {
     [SerializeField] public List<Mail> chain;
     [SerializeField] public bool isResponse = false;
     [SerializeField] public Mail replyingTo = null;
-
-    [SerializeField] public MailRenderer mr;
 
     [SerializeField] public string[] answerOptions;
     [SerializeField] public string[] answerOptionsAfterPlaying;

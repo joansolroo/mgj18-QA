@@ -41,11 +41,11 @@ public class OSHandler : MonoBehaviour {
     }
     public static void Run(Download download)
     {
-        Run(download.game);
+        RunNow(download.game);
     }
     public static void Run(string name)
     {
-        instance.StartCoroutine("LoadWithoutSplash", name);
+        instance.StartCoroutine("LoadGame", name);
     }
     public static void RunNow(string name)
     {
