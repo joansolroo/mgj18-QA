@@ -25,7 +25,7 @@ public class ChapterHandling : MonoBehaviour
     IEnumerator Introduction()
     {
         introduction.SetActive(true);
-        outro.SetActive(false);
+        if(outro!=null)outro.SetActive(false);
         manscene.SetActive(false);
         yield return new WaitForSeconds(introductionDuration);
         manscene.SetActive(true);
