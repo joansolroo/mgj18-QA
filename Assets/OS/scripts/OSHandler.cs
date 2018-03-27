@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OSHandler : MonoBehaviour {
+public class OSHandler : MonoBehaviour
+{
 
     [SerializeField] public GameObject unitySplash; //TODO remove later
     [SerializeField] public GameObject crash;
@@ -55,14 +56,21 @@ public class OSHandler : MonoBehaviour {
     string lastScene;
     public static void Close(string name)
     {
-        Application.UnloadLevel(name);
-        instance.desktop.SetActive(true);
+        instance.StartCoroutine(instance.CloseAtTheEndOfTheFrame(instance.lastScene));
     }
     public static void CloseLast()
     {
         Close(instance.lastScene);
     }
-    IEnumerator LoadGame(string name){
+
+    IEnumerator CloseAtTheEndOfTheFrame(string name)
+    {
+        yield return new WaitForEndOfFrame();
+        Application.UnloadLevel(name);
+        instance.desktop.SetActive(true);
+    }
+    IEnumerator LoadGame(string name)
+    {
         desktop.SetActive(false);
         instance.unitySplash.SetActive(true);
         yield return new WaitForSeconds(2);
@@ -80,7 +88,7 @@ public class OSHandler : MonoBehaviour {
         yield return async;
         lastScene = name;
     }
-    
+
     public static void Crash(ProgramError error)
     {
         instance.crash.SetActive(true);
@@ -133,12 +141,12 @@ public class OSHandler : MonoBehaviour {
             gc.Deactivate();
             brokenIntro.SetActive(false);
             middleIntro.SetActive(true);
-            yield return new WaitForSeconds(3f*demonRatio);
+            yield return new WaitForSeconds(3f * demonRatio);
             middleIntro.GetComponent<AudioLowPassFilter>().enabled = false;
             middleIntro.GetComponent<SoundGlitch>().enabled = false;
             middleIntro.GetComponent<IsGlitched>().enabled = false;
             workingIntro.SetActive(true);
-            yield return new WaitForSeconds(3*(1- demonRatio));
+            yield return new WaitForSeconds(3 * (1 - demonRatio));
             StartCoroutine("FadeOut");
             yield return new WaitForSeconds(2.0f);
         }
@@ -146,7 +154,7 @@ public class OSHandler : MonoBehaviour {
         workingIntro.SetActive(false);
         inbox.gameObject.SetActive(true);
         inbox.OpenInbox();
-        
+
     }
     IEnumerator FadeOut()
     {

@@ -45,6 +45,10 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+    void OnDisable()
+    {
+        items.Clear();
+    }
     public static bool contains(InventoryItem.Item item)
     {
         return instance.items.Contains(item);
