@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// THIS CLASS IS A MESS, I DID IT WITH A SERIOUS LACK OF SLEEP AND IT IS HAUNTING ME
+/// TODO: FIX THIS CRAP,  IT SHOULD BE REFACTORED INTO 2 PARTS: TRIGGERS and ANIMATIONS
+/// </summary>
 public class TriggerToggle : MonoBehaviour {
 
     [SerializeField] GameObject visualization;
@@ -10,6 +15,9 @@ public class TriggerToggle : MonoBehaviour {
 
     [SerializeField] bool triggerBased = true; //THIS IS A HACK, these should be 2 different monobehaviours
     [SerializeField] bool active = true; //THIS IS A HACK, these should be 2 different monobehaviours
+
+    [SerializeField] public InventoryItem.Item requiredItem = InventoryItem.Item.NOTHING;
+    [SerializeField] bool mustHaveItem = true;
     private void Start()
     {
         if (!active)
@@ -18,6 +26,7 @@ public class TriggerToggle : MonoBehaviour {
         }
         wasActive = active;
     }
+
     bool wasActive = false;
     private void Update()
     {
@@ -47,17 +56,28 @@ public class TriggerToggle : MonoBehaviour {
         {
             if (other.gameObject.tag == "Player")
             {
-                active = true;
+                if(requiredItem == InventoryItem.Item.NOTHING)
+                {
+                    active = true;
+                }
+                else
+                {
+                    bool contains = Inventory.contains(requiredItem);
+                    active = (!contains && !mustHaveItem) || (contains && mustHaveItem);
+                }
             }
         }
     }
+
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+
+        if (triggerBased && other.gameObject.tag == "Player")
         {
             active = false;
         }
     }
+
     float OriginalScale=1;
     void HideImmediately()
     {
@@ -103,7 +123,32 @@ public class TriggerToggle : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         visualization.SetActive(false);
-
     }
 
+    IEnumerator HideAndDisable()
+    {
+
+        Vector3 scale = visualization.transform.localScale;
+        float s = scale.x;
+
+        while (s > 0)
+        {
+            s = Mathf.MoveTowards(s, 0, Time.deltaTime / transitionDuration2);
+            scale.x = s;
+            visualization.transform.localScale = scale;
+            yield return new WaitForEndOfFrame();
+        }
+        visualization.SetActive(false);
+        this.active = false;
+    }
+    public void Disable()
+    {
+        StartCoroutine(HideAndDisable());
+        active = false;
+    }
+    public void Enable()
+    {
+        StartCoroutine(Show());
+        active = true;
+    }
 }

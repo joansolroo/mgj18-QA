@@ -12,6 +12,10 @@ public class ChapterHandling : MonoBehaviour
     [SerializeField] GameObject introduction;
     [SerializeField] float introductionDuration = 3;
     [SerializeField] GameObject manscene;
+    [SerializeField] GameObject outro;
+
+    [SerializeField] UnityEngine.UI.Image fadeOut;
+    [SerializeField] float fadeOutSpeed = 1;
 
     private void Start()
     {
@@ -21,6 +25,7 @@ public class ChapterHandling : MonoBehaviour
     IEnumerator Introduction()
     {
         introduction.SetActive(true);
+        outro.SetActive(false);
         manscene.SetActive(false);
         yield return new WaitForSeconds(introductionDuration);
         manscene.SetActive(true);
@@ -35,6 +40,8 @@ public class ChapterHandling : MonoBehaviour
         {
             audio.enabled = false;
         }
+
+
         if (fade != null)
         {
             float a = 1;
@@ -46,6 +53,42 @@ public class ChapterHandling : MonoBehaviour
             }
         }
         introduction.SetActive(false);
+    }
+
+    public void EndLevel()
+    {
+        StartCoroutine("Outro");
+    }
+    IEnumerator Outro()
+    {
+        if (outro != null)
+        {
+            introduction.SetActive(false);
+            outro.SetActive(true);
+            Camera cam = outro.GetComponent<Camera>();
+            if (cam != null)
+            {
+                cam.enabled = false;
+            }
+            AudioListener audio = outro.GetComponent<AudioListener>();
+            if (audio != null)
+            {
+                audio.enabled = false;
+            }
+            if (fadeOut != null)
+            {
+                Color color = fadeOut.color;
+                fadeOut.color = new Color(0, 0, 0, 0);
+                float a = 0;
+                while (a > 0)
+                {
+                    fadeOut.color = Color.Lerp(fadeOut.color, color, a);
+                    a += Time.deltaTime * fadeSpeed;
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+            CloseChapter();
+        }
     }
 
     public void CloseChapter()

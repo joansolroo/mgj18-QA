@@ -2,17 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour {
+public class Inventory : MonoBehaviour
+{
 
-    [SerializeField] InventoryItem[] items;
-    Dictionary<InventoryItem.Item, InventoryItem> itemsIndexed;
-
-    private void Start()
+    [SerializeField] List<InventoryItem.Item> items = new List<InventoryItem.Item>();
+    [SerializeField] InventoryItemRenderer[] itemRenderer;
+    static Inventory instance;
+    private void Awake()
     {
-        foreach(InventoryItem i in items)
-        {
+        instance = this;
+    }
+    public static void Pick(InventoryItem.Item item)
+    {
+        instance.items.Add(item);
 
+        foreach (InventoryItemRenderer ir in instance.itemRenderer)
+        {
+            if (ir.item == item)
+            {
+                ir.Enable();
+                break;
+            }
         }
     }
+    public static void Use(InventoryItem.Item item)
+    {
+        if (item == InventoryItem.Item.NOTHING)
+        {
+            return;
+        }
+        else
+        {
+            instance.items.Remove(item);
 
+            foreach (InventoryItemRenderer ir in instance.itemRenderer)
+            {
+                if (ir.item == item)
+                {
+                    ir.Disable();
+                    break;
+                }
+            }
+        }
+    }
+    public static bool contains(InventoryItem.Item item)
+    {
+        return instance.items.Contains(item);
+    }
 }
