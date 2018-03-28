@@ -21,7 +21,7 @@ public class ResponseComposer : MonoBehaviour
     [SerializeField] UnityEngine.UI.Dropdown problem;
     [SerializeField] UnityEngine.UI.Text problem_underline;
 
-
+    [SerializeField] ToggleUIItem toggle;
     bool initialized;
     private void OnEnable()
     {
@@ -32,6 +32,7 @@ public class ResponseComposer : MonoBehaviour
     [SerializeField] int answerIdx;
     public void Reply(Mail m)
     {
+       toggle.Show();
         replyingTo = m;
         header.text = "RE:" + m.title;
 
@@ -41,7 +42,6 @@ public class ResponseComposer : MonoBehaviour
             foreach (string a in m.answerOptionsAfterPlaying)
             {
                 introduction.options.Add(new Dropdown.OptionData(a));
-                introduction.value = 0;
             }
         }
         else
@@ -49,11 +49,13 @@ public class ResponseComposer : MonoBehaviour
             foreach (string a in m.answerOptions)
             {
                 introduction.options.Add(new Dropdown.OptionData(a));
-                introduction.value = 0;
             }
         }
-
-        //   Changed();
+        introduction.value = 0;
+        introduction.captionText.text = introduction.options[introduction.value].text;
+        
+        answerIdx = 0;
+        //Changed();
     }
     public void Changed()
     {
@@ -99,28 +101,42 @@ public class ResponseComposer : MonoBehaviour
             }
             result += problem.captionText.text;
         }*/ // WE REMOVED THE CUSTOM ANSWER COMPOSITION GIVEN TIME CONSTRAINTS
-        result += "\nBest,\n*PAC";
+        result += "\n*PAC\nGame designer / QA";
 
         return result;
     }
     public void Send()
     {
         Mail m = new Mail();
+        
         m.title = header.text;
         m.avatar = avatar;
         m.content = AsString();
         m.isResponse = true;
-        m.replyingTo = replyingTo;
+
+        m.replyingTo = Inbox.indexedEmails[replyingTo.id].mail;
+        replyingTo = m.replyingTo;
         m.fromPlayer = true;
         m.height = 4;
         Debug.Log(m.title + "//" + m.content);
         Inbox.AddMail(m, 0);
-        int realIdx = Inbox.indexedEmails[replyingTo.id].played ? answerIdx + replyingTo.answerOptions.Length : answerIdx;
-        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Length > realIdx && replyingTo.replyToAnswers[realIdx] != null)
+        int realIdx = Inbox.indexedEmails[replyingTo.id].played ? answerIdx + replyingTo.answerOptions.Count : answerIdx;
+        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Count > realIdx && replyingTo.replyToAnswers[realIdx] != null)
         {
+            /*replyingTo.replyToAnswers.RemoveAt(realIdx);
+            if (Inbox.indexedEmails[replyingTo.id].played)
+            {
+                replyingTo.answerOptionsAfterPlaying.RemoveAt(answerIdx + replyingTo.answerOptions.Count);
+            }
+            else
+            {
+                replyingTo.answerOptions.RemoveAt(answerIdx);
+            }
+            replyingTo.replyToAnswers.RemoveAt(realIdx);*/
             Inbox.AddMail(replyingTo.replyToAnswers[realIdx]);
+            
         }
-        Debug.Log(m.id);
+        Inbox.indexedEmails[replyingTo.id].RepliedTo(realIdx);
         //Inbox.AddMail();
         if (Inbox.indexedEmails[replyingTo.id].expanded)
         {
@@ -131,6 +147,7 @@ public class ResponseComposer : MonoBehaviour
 
     public void Close()
     {
-        gameObject.SetActive(false);
+       // GetComponent<ToggleUIItem>().Show();
+       gameObject.SetActive(false);
     }
 }

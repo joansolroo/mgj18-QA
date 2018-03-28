@@ -40,16 +40,20 @@ public class OSHandler : MonoBehaviour
         BSOD.SetActive(false);
 
     }
+    MailRenderer callback; //TODO this is a hack, fix it
     public static void Run(Download download)
     {
-        RunNow(download.game);
+        instance.callback = download.mailRenderer;
+        instance.StartCoroutine("LoadGame", download.game);
     }
-    public static void Run(string name)
+    static void Run(string name)
     {
+        instance.callback = null;
         instance.StartCoroutine("LoadGame", name);
     }
     public static void RunNow(string name)
     {
+        instance.callback = null;
         instance.StartCoroutine("LoadWithoutSplash", name);
     }
 
@@ -68,6 +72,7 @@ public class OSHandler : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Application.UnloadLevel(name);
         instance.desktop.SetActive(true);
+        if(callback!=null)callback.AttachmentWasOpen();
     }
     IEnumerator LoadGame(string name)
     {
@@ -110,6 +115,7 @@ public class OSHandler : MonoBehaviour
     {
         instance.unitySplash.SetActive(false);
         desktop.SetActive(true);
+        callback.AttachmentWasOpen();
     }
 
     IEnumerator HardCrash()

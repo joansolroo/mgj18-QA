@@ -38,7 +38,7 @@ public class ToggleUIItem : MonoBehaviour
     }
     public void Show()
     {
-        StartCoroutine(AnimationShow());
+        StartCoroutine(AnimationPoke());
     }
     public void Hide()
     {

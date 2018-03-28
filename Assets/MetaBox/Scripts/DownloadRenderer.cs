@@ -78,8 +78,8 @@ public class DownloadRenderer : MonoBehaviour {
             running = true;
             StartCoroutine(StartAnimationDone());
             yield return new WaitForSeconds(0.25f);
+           // download.mailRenderer.AttachmentWasOpen();
             OSHandler.Run(download);
-            download.mailRenderer.AttachmentWasOpen();
         }
         yield return new WaitForSeconds(0.25f);
         running = false;

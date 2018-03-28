@@ -21,9 +21,9 @@ public class Mail : ScriptableObject {
     [SerializeField] public bool isResponse = false;
     [SerializeField] public Mail replyingTo = null;
 
-    [SerializeField] public string[] answerOptions;
-    [SerializeField] public string[] answerOptionsAfterPlaying;
-    [SerializeField] public Mail[] replyToAnswers;
+    [SerializeField] public List<string> answerOptions;
+    [SerializeField] public List<string> answerOptionsAfterPlaying;
+    [SerializeField] public List<Mail> replyToAnswers;
 
     [SerializeField] public Mail openOnRead;
     [SerializeField] public Mail openAfterPlaying;

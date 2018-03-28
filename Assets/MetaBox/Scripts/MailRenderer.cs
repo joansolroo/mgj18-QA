@@ -142,6 +142,12 @@ public class MailRenderer : MonoBehaviour
         {
             Inbox.AddMail(mail.openAfterPlaying);
         }
+        reply.GetComponent<ToggleUIItem>().Show();
         played = true;
+    }
+
+    public void RepliedTo(int option)
+    {
+        reply.GetComponent<ToggleUIItem>().Hide();
     }
 }
