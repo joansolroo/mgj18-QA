@@ -80,7 +80,7 @@ public class ChapterHandling : MonoBehaviour
                 Color color = fadeOut.color;
                 fadeOut.color = new Color(0, 0, 0, 0);
                 float a = 0;
-                while (a > 0)
+                while (a <1)
                 {
                     fadeOut.color = Color.Lerp(fadeOut.color, color, a);
                     a += Time.deltaTime * fadeSpeed;
