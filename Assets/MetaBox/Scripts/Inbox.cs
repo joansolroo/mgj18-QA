@@ -17,6 +17,7 @@ public class Inbox : MonoBehaviour
     [SerializeField] RectTransform[] loadingOrder;
 
     [SerializeField] ResponseComposer responseComposer;
+    [SerializeField] UnreadEmailNotifier unreadEmailNotifer;
 
     new AudioSource audio;
     // Use this for initialization
@@ -181,11 +182,16 @@ public class Inbox : MonoBehaviour
     {
         float offset = -60;
         int idx = 0;
+        int unreadCount = 0;
         foreach (MailRenderer mr in mailRenderers)
         {
             mr.index = idx++;
+            if (!mr.read) {
+                ++unreadCount;
+            }
             offset = UpdateMailRenderer(mr, offset);
         }
+        unreadEmailNotifer.SetCount(unreadCount);
         RectTransform container = emailRegion.parent.GetComponent<RectTransform>();
         container.sizeDelta = new Vector2(0, offset + 180);
     }

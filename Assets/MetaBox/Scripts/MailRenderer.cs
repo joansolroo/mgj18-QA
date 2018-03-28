@@ -35,6 +35,8 @@ public class MailRenderer : MonoBehaviour
         avatar.sprite = mail.avatar;
         title.text = mail.title;
         content.text = mail.content.Replace("\\n", "\n");
+
+      
         if (mail.download != null)
         {
             downloadButton.gameObject.SetActive(true);
@@ -51,10 +53,13 @@ public class MailRenderer : MonoBehaviour
             title.font = mail.customFont;
             content.font = mail.customFont;
         }
-
         height = 2;
         targetHeight = height;
 
+        if (mail.fromPlayer)
+        {
+            this.Read();
+        }
         reply.gameObject.SetActive(!mail.isResponse && this.read);
 
         rt = GetComponent<RectTransform>();
@@ -69,8 +74,7 @@ public class MailRenderer : MonoBehaviour
         if (!this.read)
         {
             Read();
-            title.fontStyle = FontStyle.Italic;
-            title.color = new Color32(114, 114, 114, 255);
+            Inbox.instance.UpdateLayout();
         }
         expanded = !expanded;
         readMore.enabled = !expanded && mail.height > 2;
@@ -84,6 +88,8 @@ public class MailRenderer : MonoBehaviour
         {
             this.read = true;
             reply.gameObject.SetActive(!mail.isResponse && this.read);
+            title.fontStyle = FontStyle.Italic;
+            title.color = new Color32(114, 114, 114, 255);
         }
         if (mail.openOnRead != null)
         {
