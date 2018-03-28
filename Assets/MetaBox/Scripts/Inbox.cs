@@ -8,6 +8,7 @@ public class Inbox : MonoBehaviour
 
     [SerializeField] List<Mail> mails;
     [SerializeField] MailRenderer mailPrefab;
+    [SerializeField] MailRenderer mailFromPlayerPrefab;
 
     [SerializeField] Transform emailRegion;
     List<MailRenderer> mailRenderers; //DEBUG exposing
@@ -132,13 +133,19 @@ public class Inbox : MonoBehaviour
 
     private IEnumerator PerformAddEmail(Mail m, Mail replyingTo)
     {
+       
+        loadingLayer.SetActive(true);
+
+        MailRenderer mr;
         if (!m.fromPlayer)
         {
             instance.audio.Play();
+            mr = Instantiate(mailPrefab);
         }
-        loadingLayer.SetActive(true);
-
-        MailRenderer mr = Instantiate(mailPrefab);
+        else
+        {
+            mr = Instantiate(mailFromPlayerPrefab);
+        }
         indexedEmails[m.id] = mr;
         mr.mail = m;
         int position = 0;

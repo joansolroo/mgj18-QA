@@ -116,7 +116,7 @@ public class ResponseComposer : MonoBehaviour
         Debug.Log(m.title + "//" + m.content);
         Inbox.AddMail(m, 0);
         int realIdx = Inbox.indexedEmails[replyingTo.id].played ? answerIdx + replyingTo.answerOptions.Length : answerIdx;
-        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Length >= realIdx && replyingTo.replyToAnswers[realIdx] != null)
+        if (replyingTo.replyToAnswers != null && replyingTo.replyToAnswers.Length > realIdx && replyingTo.replyToAnswers[realIdx] != null)
         {
             Inbox.AddMail(replyingTo.replyToAnswers[realIdx]);
         }
