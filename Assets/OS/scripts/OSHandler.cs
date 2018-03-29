@@ -17,6 +17,7 @@ public class OSHandler : MonoBehaviour
     [SerializeField] GameObject brokenIntro;
     [SerializeField] GameObject middleIntro;
     [SerializeField] GameObject workingIntro;
+    [SerializeField] GameObject loginScreen;
     [SerializeField] Inbox inbox;
     [SerializeField] float demonRatio = 0.05f;
     [SerializeField] bool fastBoot = false;
@@ -126,7 +127,7 @@ public class OSHandler : MonoBehaviour
         yield return new WaitForSeconds(timeBSOD);
         BSOD.SetActive(false);
 
-        StartCoroutine("Reboot");
+        StartCoroutine(DoReboot());
     }
     public static void Reboot()
     {
@@ -134,6 +135,7 @@ public class OSHandler : MonoBehaviour
     }
     IEnumerator DoReboot()
     {
+        
         desktop.SetActive(true);
         gc.Deactivate();
         inbox.gameObject.SetActive(false);
@@ -143,6 +145,7 @@ public class OSHandler : MonoBehaviour
             source.Play();
             workingIntro.SetActive(false);
             brokenIntro.SetActive(false);
+            loginScreen.SetActive(false);
             yield return new WaitForSeconds(1f);
             brokenIntro.SetActive(true);
             yield return new WaitForSeconds(6.3f);
@@ -159,11 +162,17 @@ public class OSHandler : MonoBehaviour
             yield return new WaitForSeconds(3 * (1 - demonRatio));
             StartCoroutine("FadeOut");
             yield return new WaitForSeconds(2.0f);
+            loginScreen.SetActive(true);
+            loginScreen.GetComponent<ToggleUIItem>().Show();
+            middleIntro.SetActive(false);
+            
+
         }
-        middleIntro.SetActive(false);
-        workingIntro.SetActive(false);
-        inbox.gameObject.SetActive(true);
-        inbox.OpenInbox();
+        else
+        {
+            inbox.gameObject.SetActive(true);
+            inbox.OpenInbox();
+        }
 
     }
     IEnumerator FadeOut()
@@ -174,5 +183,14 @@ public class OSHandler : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
         source.Stop();
+    }
+
+    public void Login()
+    {
+        workingIntro.SetActive(false);
+        loginScreen.GetComponent<ToggleUIItem>().Hide();
+       
+        inbox.gameObject.SetActive(true);
+        inbox.OpenInbox();
     }
 }

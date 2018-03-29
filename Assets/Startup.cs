@@ -26,7 +26,7 @@ public class Startup : MonoBehaviour
                 OSHandler.RunNow("world1");
                 break;
             case 2:
-                OSHandler.instance.StartCoroutine("Reboot");
+                OSHandler.Reboot();
                 break;
         }
         if (fastBoot)

@@ -103,7 +103,7 @@ public class Inbox : MonoBehaviour
         }
         loadingLayer.SetActive(false);
     }
-    public static void AddMail(Mail m, float delay = 2)
+    public static void AddMail(Mail m, float delay = 4)
     {
    /*     if(m.replyingTo != null)
         {
