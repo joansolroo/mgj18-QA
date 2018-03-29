@@ -143,6 +143,7 @@ public class TriggerToggle : MonoBehaviour {
     }
     public void Disable()
     {
+        gameObject.SetActive(true);
         StartCoroutine(HideAndDisable());
         active = false;
     }
