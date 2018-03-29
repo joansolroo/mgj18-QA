@@ -128,7 +128,11 @@ public class OSHandler : MonoBehaviour
 
         StartCoroutine("Reboot");
     }
-    IEnumerator Reboot()
+    public static void Reboot()
+    {
+        instance.StartCoroutine(instance.DoReboot());
+    }
+    IEnumerator DoReboot()
     {
         desktop.SetActive(true);
         gc.Deactivate();

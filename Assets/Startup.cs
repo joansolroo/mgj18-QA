@@ -23,7 +23,7 @@ public class Startup : MonoBehaviour
         switch (chapter)
         {
             case 1:
-                StartCoroutine(RunIntro());
+                OSHandler.RunNow("world1");
                 break;
             case 2:
                 OSHandler.instance.StartCoroutine("Reboot");
@@ -39,15 +39,5 @@ public class Startup : MonoBehaviour
             
             //OSHandler.instance.StartCoroutine("RunIntro");
         }
-    }
-    IEnumerator RunIntro()
-    {
-        OSHandler.RunNow("world1");
-        Debug.Log("introooo");
-        yield return new WaitForSeconds(timeUntilCrash);
-        gc.Activate(4);
-        yield return new WaitForSeconds(timeBeforeBSOD);
-        OSHandler.instance.StartCoroutine("HardCrash");
-        OSHandler.Close("world1");
     }
 }

@@ -8,6 +8,12 @@ public class GlitchController : MonoBehaviour {
     [SerializeField] Kino.DigitalGlitch digital;
     [SerializeField] Kino.AnalogGlitch analog;
 
+    public static GlitchController instance;
+
+    private void OnEnable()
+    {
+        instance = this;
+    }
     public void Activate(int intensity = 1, bool vSync = false)
     {
         digital.enabled = true;
