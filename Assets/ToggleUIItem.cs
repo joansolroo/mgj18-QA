@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ToggleUIItem : MonoBehaviour
 {
+    [SerializeField] AudioSource show;
+    [SerializeField] AudioSource hide;
 
     private void Start()
     {
@@ -22,6 +24,7 @@ public class ToggleUIItem : MonoBehaviour
     [SerializeField] Vector3 minSize = Vector3.zero;
     [SerializeField] Vector3 maxSize = Vector3.one;
     [SerializeField] float speed = 1;
+    [SerializeField] float pokeScale = 1.5f;
     public void Toggle()
     {
         if (!inTransition)
@@ -51,6 +54,10 @@ public class ToggleUIItem : MonoBehaviour
 
     IEnumerator AnimationHide()
     {
+        if (hide != null)
+        {
+            hide.Play();
+        }
         visible = false;
         inTransition = true;
         while (transform.localScale.x > minSize.x || transform.localScale.y > minSize.y || transform.localScale.z > minSize.z)
@@ -64,6 +71,10 @@ public class ToggleUIItem : MonoBehaviour
     
     IEnumerator AnimationShow()
     {
+        if (show != null)
+        {
+            show.Play();
+        }
         visible = true;
         inTransition = true;
         while (transform.localScale.x < maxSize.x || transform.localScale.y < maxSize.y || transform.localScale.z < maxSize.z)
@@ -75,10 +86,14 @@ public class ToggleUIItem : MonoBehaviour
     }
     IEnumerator AnimationPoke()
     {
+        if (show != null)
+        {
+            show.Play();
+        }
         visible = true;
         inTransition = true;
 
-        Vector3 targetSize = Vector3.one * 1.5f;
+        Vector3 targetSize = Vector3.one * pokeScale;
         for (float t = 0; t < 1; t+=Time.deltaTime*speed)
         {
             transform.localScale = Vector3.MoveTowards(transform.localScale, targetSize, Time.deltaTime * speed);
