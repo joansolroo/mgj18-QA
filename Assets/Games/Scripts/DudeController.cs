@@ -67,6 +67,7 @@ public class DudeController : MonoBehaviour
         }
         if((!used || !CameraRotation.used)&& (Time.time - startTime)>TimeUntilHelpIsShown){
             helpShown = true;
+            help.gameObject.active = true;
             help.Enable();
         }
     }
