@@ -8,6 +8,7 @@ public class CameraRotation : MonoBehaviour {
     Vector2 newPos;
     Vector3 euler;
 
+    public static bool used = false;
     public static CameraRotation instance;
     private void Awake()
     {
@@ -28,9 +29,13 @@ public class CameraRotation : MonoBehaviour {
         if (m_Event.type == EventType.MouseDrag)
         {
             newPos = m_Event.mousePosition;
-            euler.y += newPos.x - oldPos.x;
-            oldPos = m_Event.mousePosition;
-            this.transform.localEulerAngles = euler;
+            if (newPos.x != oldPos.x)
+            {
+                used = true;
+                euler.y += newPos.x - oldPos.x;
+                oldPos = m_Event.mousePosition;
+                this.transform.localEulerAngles = euler;
+            }
          //   Debug.Log("Mouse Dragged.");
         }
         if (follow != null)

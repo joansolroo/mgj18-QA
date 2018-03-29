@@ -14,12 +14,18 @@ public class DudeController : MonoBehaviour
     [SerializeField] Transform visualization;
 
     Rigidbody rb;
+    public static bool used = false;
+    [SerializeField] float TimeUntilHelpIsShown = 15;
+    [SerializeField] TriggerToggle help;
+    bool helpShown = false;
     // Use this for initialization
 
+    float startTime = 0;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
+        startTime = Time.time;
     }
 
 
@@ -30,26 +36,38 @@ public class DudeController : MonoBehaviour
     {
         float dr = Input.GetAxis("Horizontal");
         float dx = Input.GetAxis("Vertical");
-        speed.x = dx; speed.y = dr;
-        // Debug.Log("dr:" + dx + " dy:" + dx);
-        Vector3 rotation = gameObject.transform.localEulerAngles;
-        rotation.y += dr * rotationSpeed * Time.deltaTime;
-        float sin = Mathf.Sin(Time.time * 10);
-        if (!step && Mathf.Abs(dx) > 0 && Mathf.Abs(sin) >=0.98f)
+        if (dr != 0 || dx != 0)
         {
-            audio.clip = walk;
-            audio.Play();
-            step = true;
+            if (!used)
+            {
+                help.Disable();
+                used = true;
+            }
+            speed.x = dx; speed.y = dr;
+            // Debug.Log("dr:" + dx + " dy:" + dx);
+            Vector3 rotation = gameObject.transform.localEulerAngles;
+            rotation.y += dr * rotationSpeed * Time.deltaTime;
+            float sin = Mathf.Sin(Time.time * 10);
+            if (!step && Mathf.Abs(dx) > 0 && Mathf.Abs(sin) >= 0.98f)
+            {
+                audio.clip = walk;
+                audio.Play();
+                step = true;
+            }
+            else if (Mathf.Abs(sin) < 0.3)
+            {
+                step = false;
+                audio.Stop();
+            }
+            //rotation.z = Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx));
+            visualization.localEulerAngles = new Vector3(0, 0, Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx)));
+            rb.velocity = transform.forward * -dx * movementSpeed;
+            //gameObject.transform.position = gameObject.transform.TransformPoint();
+            gameObject.transform.localEulerAngles = rotation;
         }
-        else if (Mathf.Abs(sin) < 0.3)
-        {
-            step = false;
-            audio.Stop();
+        if((!used || !CameraRotation.used)&& (Time.time - startTime)>TimeUntilHelpIsShown){
+            helpShown = true;
+            help.Enable();
         }
-        //rotation.z = Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx));
-        visualization.localEulerAngles = new Vector3(0,0,Mathf.Lerp(0, sin * 35 / 2, Mathf.Abs(dx)));
-        rb.velocity = transform.forward*-dx * movementSpeed;
-        //gameObject.transform.position = gameObject.transform.TransformPoint();
-        gameObject.transform.localEulerAngles = rotation;
     }
 }

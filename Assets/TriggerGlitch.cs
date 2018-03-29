@@ -26,6 +26,5 @@ public class TriggerGlitch : MonoBehaviour
         yield return new WaitForSeconds(2);
         OSHandler.instance.StartCoroutine("HardCrash");
         OSHandler.Close("world1");
-
     }
 }
