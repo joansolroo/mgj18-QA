@@ -39,21 +39,26 @@ public class ToggleUIItem : MonoBehaviour
             }
         }
     }
-    public void Show()
+    public void Show(float delay = 0)
     {
-        StartCoroutine(AnimationPoke());
+        gameObject.SetActive(true);
+        StartCoroutine(AnimationPoke(delay));
     }
-    public void Hide()
+    public void Hide(float delay = 0)
     {
-        StartCoroutine(AnimationHide());
+        StartCoroutine(AnimationHide(delay));
     }
-    public void Poke()
+    public void Poke(float delay = 0)
     {
-        StartCoroutine(AnimationPoke());
+        StartCoroutine(AnimationPoke(delay));
     }
 
-    IEnumerator AnimationHide()
+    IEnumerator AnimationHide(float delay)
     {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
         if (hide != null)
         {
             hide.Play();
@@ -69,8 +74,12 @@ public class ToggleUIItem : MonoBehaviour
 
     }
     
-    IEnumerator AnimationShow()
+    IEnumerator AnimationShow(float delay=0)
     {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
         if (show != null)
         {
             show.Play();
@@ -84,8 +93,12 @@ public class ToggleUIItem : MonoBehaviour
         }
         inTransition = false;
     }
-    IEnumerator AnimationPoke()
+    IEnumerator AnimationPoke(float delay)
     {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
         if (show != null)
         {
             show.Play();

@@ -87,7 +87,9 @@ public class MailRenderer : MonoBehaviour
         if (!this.read)
         {
             this.read = true;
-            reply.gameObject.SetActive(!mail.isResponse && this.read);
+            if (!mail.isResponse){
+                reply.GetComponent<ToggleUIItem>().Show(1);
+            }
             title.fontStyle = FontStyle.Italic;
             title.color = new Color32(114, 114, 114, 255);
         }
@@ -142,7 +144,7 @@ public class MailRenderer : MonoBehaviour
         {
             Inbox.AddMail(mail.openAfterPlaying);
         }
-        reply.GetComponent<ToggleUIItem>().Show();
+        reply.GetComponent<ToggleUIItem>().Show(0.5f);
         played = true;
     }
 

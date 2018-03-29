@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class Inbox : MonoBehaviour
 {
 
@@ -20,7 +19,6 @@ public class Inbox : MonoBehaviour
     [SerializeField] ResponseComposer responseComposer;
     [SerializeField] UnreadEmailNotifier unreadEmailNotifer;
 
-    new AudioSource audio;
     // Use this for initialization
 
     public static Inbox instance;
@@ -31,7 +29,6 @@ public class Inbox : MonoBehaviour
     void Start()
     {
         mailRenderers = new List<MailRenderer>();
-        audio = GetComponent<AudioSource>();
         // OpenInbox();
     }
 
@@ -108,12 +105,12 @@ public class Inbox : MonoBehaviour
     }
     public static void AddMail(Mail m, float delay = 2)
     {
-        if(m.replyingTo != null)
+   /*     if(m.replyingTo != null)
         {
             Debug.Log("new mail" + m.id+",replying to " + m.replyingTo.id);
         }
         else { Debug.Log("new mail" + m.id); }
-       
+       */
         Mail replyingTo = m.replyingTo;
         if (delay > 0)
         {
@@ -139,7 +136,6 @@ public class Inbox : MonoBehaviour
         MailRenderer mr;
         if (!m.fromPlayer)
         {
-            instance.audio.Play();
             mr = Instantiate(mailPrefab);
         }
         else
@@ -193,7 +189,7 @@ public class Inbox : MonoBehaviour
         foreach (MailRenderer mr in mailRenderers)
         {
             mr.index = idx++;
-            if (!mr.read) {
+            if (!mr.read && !mr.mail.fromPlayer) {
                 ++unreadCount;
             }
             offset = UpdateMailRenderer(mr, offset);

@@ -20,7 +20,8 @@ public class UnreadEmailNotifier : MonoBehaviour {
             if(unreadCount>0 && count == 0)
             {
                 toggle.Hide();
-            }else if (unreadCount == 0 && count > 0)
+            }
+            else if (unreadCount == 0 && count > 0)
             {
                 toggle.Show();
             }
