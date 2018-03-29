@@ -38,7 +38,7 @@ public class DudeController : MonoBehaviour
         float dx = Input.GetAxis("Vertical");
         if (dr != 0 || dx != 0)
         {
-            if (!used)
+            if (help!= null && !used)
             {
                 help.Disable();
                 used = true;
@@ -65,10 +65,15 @@ public class DudeController : MonoBehaviour
             //gameObject.transform.position = gameObject.transform.TransformPoint();
             gameObject.transform.localEulerAngles = rotation;
         }
-        if((!used || !CameraRotation.used)&& (Time.time - startTime)>TimeUntilHelpIsShown){
-            helpShown = true;
-            help.gameObject.active = true;
-            help.Enable();
+        if (help != null)
+        {
+            if ((!used || !CameraRotation.used) && (Time.time - startTime) > TimeUntilHelpIsShown)
+            {
+
+                helpShown = true;
+                help.gameObject.active = true;
+                help.Enable();
+            }
         }
     }
 }
