@@ -14,7 +14,7 @@ public class GlitchController : MonoBehaviour {
     {
         instance = this;
     }
-    public void Activate(int intensity = 1, bool vSync = false)
+    public void Activate(float intensity = 1, bool vSync = false)
     {
         digital.enabled = true;
         analog.enabled = true;
