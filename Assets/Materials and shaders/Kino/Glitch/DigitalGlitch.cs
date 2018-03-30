@@ -70,9 +70,9 @@ namespace Kino
             _noiseTexture.hideFlags = HideFlags.DontSave;
             _noiseTexture.wrapMode = TextureWrapMode.Clamp;
             _noiseTexture.filterMode = FilterMode.Point;
-
-            _trashFrame1 = new RenderTexture(Camera.main.pixelWidth, Camera.main.pixelHeight, 0);
-            _trashFrame2 = new RenderTexture(Camera.main.pixelWidth, Camera.main.pixelHeight, 0);
+            Camera camera = GetComponent<Camera>();
+            _trashFrame1 = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0);
+            _trashFrame2 = new RenderTexture(camera.pixelWidth, camera.pixelHeight, 0);
             _trashFrame1.hideFlags = HideFlags.DontSave;
             _trashFrame2.hideFlags = HideFlags.DontSave;
 

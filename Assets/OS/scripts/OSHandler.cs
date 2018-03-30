@@ -49,12 +49,12 @@ public class OSHandler : MonoBehaviour
     }
     static void Run(string name)
     {
-        instance.callback = null;
+        //instance.callback = null;
         instance.StartCoroutine("LoadGame", name);
     }
     public static void RunNow(string name)
     {
-        instance.callback = null;
+       // instance.callback = null;
         instance.StartCoroutine("LoadWithoutSplash", name);
     }
 
@@ -72,27 +72,36 @@ public class OSHandler : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         Application.UnloadLevel(name);
-        instance.desktop.SetActive(true);
         if(callback!=null)callback.AttachmentWasOpen();
+    }
+    public static void ShowDesktop()
+    {
+        instance.desktop.SetActive(true);
     }
     IEnumerator LoadGame(string name)
     {
         desktop.SetActive(false);
         instance.unitySplash.SetActive(true);
-        yield return new WaitForSeconds(2);
-        AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
-        yield return async;
-        Debug.Log("Loading complete");
+        //yield return new WaitForSeconds(2);
+        /*AsyncOperation async =*/ Application.LoadLevelAdditive(name);
+        //yield return async;
+      //  Debug.Log("Loading complete");
         instance.unitySplash.SetActive(false);
         lastScene = name;
+        yield return new WaitForEndOfFrame();
     }
     IEnumerator LoadWithoutSplash(string name)
     {
         desktop.SetActive(false);
-        yield return new WaitForSeconds(2);
-        AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
-        yield return async;
+        //yield return new WaitForSeconds(2);
+        //AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
+        //yield return async;
+        /*AsyncOperation async =*/
+        Application.LoadLevelAdditive(name);
+        //yield return async;
+        //  Debug.Log("Loading complete");
         lastScene = name;
+        yield return new WaitForEndOfFrame();
     }
 
     public static void Crash(ProgramError error)
@@ -118,16 +127,21 @@ public class OSHandler : MonoBehaviour
         desktop.SetActive(true);
         callback.AttachmentWasOpen();
     }
-
-    IEnumerator HardCrash()
+    /*public static void HardCrash()
     {
+        instance.StartCoroutine(instance.DoHardCrash());
+    }*/
+    public IEnumerator HardCrash()
+    {
+        OSHandler.CloseLast();
         BSOD.SetActive(true);
+        OSHandler.ShowDesktop();
         source.clip = crashClip;
         source.Play();
         yield return new WaitForSeconds(timeBSOD);
         BSOD.SetActive(false);
-
-        StartCoroutine(DoReboot());
+        yield return new WaitForEndOfFrame();
+        //StartCoroutine(DoReboot());
     }
     public static void Reboot()
     {
@@ -135,7 +149,6 @@ public class OSHandler : MonoBehaviour
     }
     IEnumerator DoReboot()
     {
-        
         desktop.SetActive(true);
         gc.Deactivate();
         inbox.gameObject.SetActive(false);

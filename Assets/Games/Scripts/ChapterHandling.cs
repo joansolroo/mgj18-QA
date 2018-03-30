@@ -103,7 +103,6 @@ public class ChapterHandling : MonoBehaviour
 
     public void CloseChapter()
     {
-        Debug.Log("Closing chapter");
-        OSHandler.CloseLast();
+        Startup.instance.NextChapter();
     }
 }

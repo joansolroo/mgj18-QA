@@ -132,6 +132,7 @@ public class MailRenderer : MonoBehaviour
         {
             notDownloadedBackground.enabled = false;
             DownloadManager.AddDownload(mail.download);
+            this.downloaded = true;
         }
     }
     public void Reply()

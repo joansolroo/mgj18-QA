@@ -11,7 +11,7 @@ public class ToggleUIItem : MonoBehaviour
     {
         if (!visible)
         {
-            transform.localScale =minSize;
+            transform.localScale = minSize;
         }
         else
         {
@@ -42,7 +42,14 @@ public class ToggleUIItem : MonoBehaviour
     public void Show(float delay = 0)
     {
         gameObject.SetActive(true);
-        StartCoroutine(AnimationPoke(delay));
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(AnimationPoke(delay));
+        }
+        else
+        {
+            transform.localScale = Vector3.one;
+        }
     }
     public void Hide(float delay = 0)
     {
@@ -67,14 +74,14 @@ public class ToggleUIItem : MonoBehaviour
         inTransition = true;
         while (transform.localScale.x > minSize.x || transform.localScale.y > minSize.y || transform.localScale.z > minSize.z)
         {
-            transform.localScale = Vector3.MoveTowards(transform.localScale, minSize, Time.deltaTime*speed);
+            transform.localScale = Vector3.MoveTowards(transform.localScale, minSize, Time.deltaTime * speed);
             yield return new WaitForEndOfFrame();
         }
         inTransition = false;
 
     }
-    
-    IEnumerator AnimationShow(float delay=0)
+
+    IEnumerator AnimationShow(float delay = 0)
     {
         if (delay > 0)
         {
@@ -88,7 +95,7 @@ public class ToggleUIItem : MonoBehaviour
         inTransition = true;
         while (transform.localScale.x < maxSize.x || transform.localScale.y < maxSize.y || transform.localScale.z < maxSize.z)
         {
-            transform.localScale = Vector3.MoveTowards(transform.localScale, maxSize, Time.deltaTime*speed);
+            transform.localScale = Vector3.MoveTowards(transform.localScale, maxSize, Time.deltaTime * speed);
             yield return new WaitForEndOfFrame();
         }
         inTransition = false;
@@ -107,7 +114,7 @@ public class ToggleUIItem : MonoBehaviour
         inTransition = true;
 
         Vector3 targetSize = Vector3.one * pokeScale;
-        for (float t = 0; t < 1; t+=Time.deltaTime*speed)
+        for (float t = 0; t < 1; t += Time.deltaTime * speed)
         {
             transform.localScale = Vector3.MoveTowards(transform.localScale, targetSize, Time.deltaTime * speed);
             yield return new WaitForEndOfFrame();

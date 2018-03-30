@@ -9,5 +9,6 @@ public class Download : ScriptableObject {
     [SerializeField] public string game; //probably this will be something else, like a scene
 
     [SerializeField] public MailRenderer mailRenderer;
+    [SerializeField] public int chapter;
 
 }
