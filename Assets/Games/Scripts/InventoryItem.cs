@@ -9,7 +9,7 @@ public class InventoryItem : MonoBehaviour
     TriggerToggle trigger;
     public enum Item
     {
-        KEY, MATCHES, KEY2, LEVEL_END, NOTHING
+        KEY, LIGHTER, KEY2, LEVEL_END, NOTHING
     }
 
     [SerializeField] public Item item;
