@@ -12,6 +12,10 @@ public class ChapterHandling : MonoBehaviour
     [SerializeField] GameObject introduction;
     [SerializeField] float introductionDuration = 3;
     [SerializeField] GameObject manscene;
+
+    [SerializeField] bool autoOutro = false;
+    [SerializeField] float autoOutroDelay = 3;
+
     [SerializeField] GameObject outro;
 
     [SerializeField] UnityEngine.UI.Image fadeOut;
@@ -22,10 +26,11 @@ public class ChapterHandling : MonoBehaviour
         StartCoroutine("Introduction");
     }
 
+    public float a;
     IEnumerator Introduction()
     {
+        if (outro != null) outro.SetActive(false);
         introduction.SetActive(true);
-        if(outro!=null)outro.SetActive(false);
         manscene.SetActive(false);
         yield return new WaitForSeconds(introductionDuration);
         manscene.SetActive(true);
@@ -44,7 +49,7 @@ public class ChapterHandling : MonoBehaviour
 
         if (fade != null)
         {
-            float a = 1;
+            a = 1;
             while (a > 0)
             {
                 fade.color = Color.Lerp(new Color(0, 0, 0, 0), fade.color, a);
@@ -53,6 +58,11 @@ public class ChapterHandling : MonoBehaviour
             }
         }
         introduction.SetActive(false);
+        if (autoOutro)
+        {
+            yield return new WaitForSeconds(autoOutroDelay);
+            EndLevel();
+        }
     }
 
     public void EndLevel()
