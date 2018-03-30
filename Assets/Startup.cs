@@ -23,7 +23,7 @@ public class Startup : MonoBehaviour
         switch (chapter)
         {
             case 1:
-                OSHandler.RunNow("world1");
+                OSHandler.RunNow("world_1");
                 break;
             case 2:
                 OSHandler.Reboot();
