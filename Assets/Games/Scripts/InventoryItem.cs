@@ -26,21 +26,24 @@ public class InventoryItem : MonoBehaviour
     }
     void OnTriggerStay(Collider c)
     {
-        if ((Time.time> (StartTime+1)) && Input.GetKeyDown(KeyCode.Space))
+        if (c.gameObject.tag == "Player")
         {
-            if (trigger.requiredItem == Item.NOTHING || Inventory.contains(trigger.requiredItem))
+            if ((Time.time > (StartTime + 1)) && Input.GetKeyDown(KeyCode.Space))
             {
-                Inventory.Use(trigger.requiredItem);
-                Inventory.Pick(item);
-                if (endOfLevel)
+                if (trigger.requiredItem == Item.NOTHING || Inventory.contains(trigger.requiredItem))
                 {
-                    chapterHandling.EndLevel();
+                    Inventory.Use(trigger.requiredItem);
+                    Inventory.Pick(item);
+                    if (endOfLevel)
+                    {
+                        chapterHandling.EndLevel();
+                    }
+                    trigger.Disable();
+                    this.GetComponent<Collider>().enabled = false;
+                    picked = true;
                 }
-                trigger.Disable();
-                this.GetComponent<Collider>().enabled = false;
-                picked = true;
-            }
 
+            }
         }
     }
 
