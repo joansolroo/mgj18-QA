@@ -19,16 +19,19 @@ public class OpenAndSwap : MonoBehaviour {
     }
     void OnTriggerStay(Collider c)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (c.gameObject.tag == "Player")
         {
-            if (trigger.requiredItem == InventoryItem.Item.NOTHING || Inventory.contains(trigger.requiredItem))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                Inventory.Use(trigger.requiredItem);
+                if (trigger.requiredItem == InventoryItem.Item.NOTHING || Inventory.contains(trigger.requiredItem))
+                {
+                    Inventory.Use(trigger.requiredItem);
 
-                thisContainer.SetActive(false);
-                swap.SetActive(true);
+                    thisContainer.SetActive(false);
+                    swap.SetActive(true);
+                }
+
             }
-
         }
     }
 }

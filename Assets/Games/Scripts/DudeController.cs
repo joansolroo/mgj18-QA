@@ -38,11 +38,7 @@ public class DudeController : MonoBehaviour
         float dx = Input.GetAxis("Vertical");
         if (dr != 0 || dx != 0)
         {
-            if (help!= null && !used)
-            {
-                help.Disable();
-                used = true;
-            }
+            used = true;
             speed.x = dx; speed.y = dr;
             // Debug.Log("dr:" + dx + " dy:" + dx);
             Vector3 rotation = gameObject.transform.localEulerAngles;
@@ -65,11 +61,15 @@ public class DudeController : MonoBehaviour
             //gameObject.transform.position = gameObject.transform.TransformPoint();
             gameObject.transform.localEulerAngles = rotation;
         }
+
         if (help != null)
         {
-            if ((!used || !CameraRotation.used) && (Time.time - startTime) > TimeUntilHelpIsShown)
+            if (helpShown && used && CameraRotation.used)
             {
-
+                help.Disable();
+            }
+            else if (!helpShown && (!used || !CameraRotation.used) && (Time.time - startTime) > TimeUntilHelpIsShown)
+            {
                 helpShown = true;
                 help.gameObject.active = true;
                 help.Enable();

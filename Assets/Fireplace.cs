@@ -11,15 +11,18 @@ public class Fireplace : MonoBehaviour {
     bool triggered = false;
     void OnTriggerStay(Collider c)
     {
-        if (!triggered && Input.GetKeyDown(KeyCode.Space))
+        if (c.gameObject.tag == "Player")
         {
-            if (requiredItem == InventoryItem.Item.NOTHING || Inventory.contains(requiredItem))
+            if (!triggered && Input.GetKeyDown(KeyCode.Space))
             {
-                Inventory.Use(requiredItem);
-                fire.SetActive(true);
-                animation.Play();
-                triggered = true;
-                StartCoroutine(RevealKey());
+                if (requiredItem == InventoryItem.Item.NOTHING || Inventory.contains(requiredItem))
+                {
+                    Inventory.Use(requiredItem);
+                    fire.SetActive(true);
+                    animation.Play();
+                    triggered = true;
+                    StartCoroutine(RevealKey());
+                }
             }
         }
     }
