@@ -41,7 +41,7 @@ public class TriggerToggle : MonoBehaviour {
             wasActive = active;
         }
 
-        if (visualization.activeSelf)
+        if (visualization!=null && visualization.activeSelf)
         {
             float dx = Camera.main.WorldToViewportPoint(this.transform.position).x;
             dx = (dx - 0.5f) * 2;
@@ -113,18 +113,20 @@ public class TriggerToggle : MonoBehaviour {
     }
     IEnumerator Hide()
     {
-
-        Vector3 scale = visualization.transform.localScale;
-        float s = scale.x;
-
-        while (s > 0)
+        if (visualization != null)
         {
-            s = Mathf.MoveTowards(s, 0, Time.deltaTime/ transitionDuration2);
-            scale.x = s;
-            visualization.transform.localScale = scale;
-            yield return new WaitForEndOfFrame();
+            Vector3 scale = visualization.transform.localScale;
+            float s = scale.x;
+
+            while (s > 0)
+            {
+                s = Mathf.MoveTowards(s, 0, Time.deltaTime / transitionDuration2);
+                scale.x = s;
+                visualization.transform.localScale = scale;
+                yield return new WaitForEndOfFrame();
+            }
+            visualization.SetActive(false);
         }
-        visualization.SetActive(false);
     }
 
     IEnumerator HideAndDisable()
