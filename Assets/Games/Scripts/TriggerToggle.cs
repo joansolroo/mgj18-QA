@@ -45,7 +45,7 @@ public class TriggerToggle : MonoBehaviour {
         {
             float dx = Camera.main.WorldToViewportPoint(this.transform.position).x;
             dx = (dx - 0.5f) * 2;
-            Vector3 targetAngle = CameraRotation.instance.transform.eulerAngles + new Vector3(0, dx*-13, 0);
+            Vector3 targetAngle = Camera.main.transform.eulerAngles + new Vector3(0, dx*-13, 0);
             visualization.transform.rotation = Quaternion.RotateTowards(visualization.transform.rotation, Quaternion.Euler(targetAngle), Quaternion.Angle(visualization.transform.rotation, Quaternion.Euler(targetAngle)) * Time.deltaTime * 5);
 
         }
@@ -93,7 +93,7 @@ public class TriggerToggle : MonoBehaviour {
 
         float dx = Camera.main.WorldToViewportPoint(this.transform.position).x;
         dx = (dx - 0.5f) * 2;
-        Vector3 targetAngle = CameraRotation.instance.transform.eulerAngles + new Vector3(0, dx * -13, 0);
+        Vector3 targetAngle = Camera.main.transform.eulerAngles + new Vector3(0, dx * -13, 0);
 
         visualization.transform.eulerAngles=targetAngle;
 
