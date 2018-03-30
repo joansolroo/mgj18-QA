@@ -17,13 +17,16 @@ public class InventoryItem : MonoBehaviour
 
     [SerializeField] ChapterHandling chapterHandling;
     [SerializeField] bool endOfLevel = false;
+
+    float StartTime;
     private void Start()
     {
         trigger = GetComponent<TriggerToggle>();
+        StartTime = Time.time;
     }
     void OnTriggerStay(Collider c)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if ((Time.time> (StartTime+1)) && Input.GetKeyDown(KeyCode.Space))
         {
             if (trigger.requiredItem == Item.NOTHING || Inventory.contains(trigger.requiredItem))
             {
