@@ -26,9 +26,15 @@ public class Inbox : MonoBehaviour
     {
         instance = this;
     }
+    public bool hack = false;
     private void OnEnable()
     {
         Cursor.visible = true;
+        if (hack)
+        {
+           // hack = false;
+            DemonicHack();
+        }
     }
     void Start()
     {
@@ -48,7 +54,7 @@ public class Inbox : MonoBehaviour
         indexedEmails.Clear();
         if(mailRenderers!=null) mailRenderers.Clear();
         instance.StartCoroutine(instance.PerformAddEmail(demonEmail, null, 2));
-        //this.gameObject.SetActive(false);
+     //   this.gameObject.SetActive(false);
     }
 
 

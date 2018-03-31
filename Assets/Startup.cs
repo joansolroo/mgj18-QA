@@ -80,10 +80,9 @@ public class Startup : MonoBehaviour
             case 9:
                 yield return StartCoroutine(HardCrash());
                 OSHandler.Reboot();
-                OSHandler.ShowDesktop();
 
                 OSHandler.instance.demonRatio = 1;
-                OSHandler.instance.inbox.DemonicHack();
+                OSHandler.instance.inbox.hack = true;
                 break;
             case 10:
                 if (firstChapter < 10) OSHandler.CloseLast();
