@@ -99,7 +99,7 @@ public class Startup : MonoBehaviour
                 break;
             case 13:
                 if (firstChapter < 12) OSHandler.CloseLast();
-                OSHandler.RunNow("outro");
+                OSHandler.RunNow("Outro");
                 break;
         }
         yield return new WaitForEndOfFrame();
