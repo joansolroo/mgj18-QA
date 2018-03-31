@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DownloadManager : MonoBehaviour
 {
-    public Transform button;
+  //  public Transform button;
     public static DownloadManager instance;
 
     [SerializeField] DownloadRenderer downloadRenderer;
@@ -21,7 +21,7 @@ public class DownloadManager : MonoBehaviour
     private void Update()
     {
         background.enabled = downloads.Count > 0;
-        button.gameObject.SetActive(background.enabled);
+     //   button.gameObject.SetActive(background.enabled);
     }
    
     public void Close()

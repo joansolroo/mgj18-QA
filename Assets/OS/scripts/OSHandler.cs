@@ -18,8 +18,8 @@ public class OSHandler : MonoBehaviour
     [SerializeField] GameObject middleIntro;
     [SerializeField] GameObject workingIntro;
     [SerializeField] GameObject loginScreen;
-    [SerializeField] Inbox inbox;
-    [SerializeField] float demonRatio = 0.05f;
+    [SerializeField] public Inbox inbox;
+    [SerializeField] public float demonRatio = 0.05f;
     [SerializeField] bool fastBoot = false;
     AudioSource source;
     [SerializeField] AudioClip bootClip;
@@ -45,7 +45,8 @@ public class OSHandler : MonoBehaviour
     public static void Run(Download download)
     {
         instance.callback = download.mailRenderer;
-        instance.StartCoroutine("LoadGame", download.game);
+        
+        instance.StartCoroutine(instance.LoadGame(download.game));
     }
     static void Run(string name)
     {
@@ -55,7 +56,7 @@ public class OSHandler : MonoBehaviour
     public static void RunNow(string name)
     {
        // instance.callback = null;
-        instance.StartCoroutine("LoadWithoutSplash", name);
+        instance.StartCoroutine(instance.LoadWithoutSplash(name));
     }
 
     string lastScene;
@@ -82,9 +83,9 @@ public class OSHandler : MonoBehaviour
     {
         desktop.SetActive(false);
         instance.unitySplash.SetActive(true);
-        //yield return new WaitForSeconds(2);
-        /*AsyncOperation async =*/ Application.LoadLevelAdditive(name);
-        //yield return async;
+        yield return new WaitForSeconds(2);
+        AsyncOperation async = Application.LoadLevelAdditiveAsync(name);
+        yield return async;
       //  Debug.Log("Loading complete");
         instance.unitySplash.SetActive(false);
         lastScene = name;
@@ -171,15 +172,22 @@ public class OSHandler : MonoBehaviour
             middleIntro.GetComponent<AudioLowPassFilter>().enabled = false;
             middleIntro.GetComponent<SoundGlitch>().enabled = false;
             middleIntro.GetComponent<IsGlitched>().enabled = false;
-            workingIntro.SetActive(true);
+            if (demonRatio < 1)
+            {
+                workingIntro.SetActive(true);
+            }
+            else
+            {
+                middleIntro.GetComponent<AudioLowPassFilter>().enabled = true;
+                middleIntro.GetComponent<SoundGlitch>().enabled = true;
+                middleIntro.GetComponent<IsGlitched>().enabled = true;
+            }
             yield return new WaitForSeconds(3 * (1 - demonRatio));
             StartCoroutine("FadeOut");
             yield return new WaitForSeconds(2.0f);
             loginScreen.SetActive(true);
             loginScreen.GetComponent<ToggleUIItem>().Show();
             middleIntro.SetActive(false);
-            
-
         }
         else
         {

@@ -26,11 +26,31 @@ public class Inbox : MonoBehaviour
     {
         instance = this;
     }
+    private void OnEnable()
+    {
+        Cursor.visible = true;
+    }
     void Start()
     {
         mailRenderers = new List<MailRenderer>();
         // OpenInbox();
     }
+
+    [SerializeField] Mail demonEmail;
+    public void DemonicHack()
+    {
+        this.gameObject.SetActive(true);
+        mails.Clear();
+        foreach(int key in indexedEmails.Keys)
+        {
+            GameObject.Destroy(indexedEmails[key].gameObject);
+        }
+        indexedEmails.Clear();
+        if(mailRenderers!=null) mailRenderers.Clear();
+        instance.StartCoroutine(instance.PerformAddEmail(demonEmail, null, 2));
+        //this.gameObject.SetActive(false);
+    }
+
 
     public void OpenInbox()
     {

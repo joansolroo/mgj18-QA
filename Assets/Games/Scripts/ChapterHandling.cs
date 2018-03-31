@@ -65,9 +65,13 @@ public class ChapterHandling : MonoBehaviour
         }
     }
 
+    bool ended = false;
     public void EndLevel()
     {
-        StartCoroutine("Outro");
+        if (!ended)
+        {
+            StartCoroutine("Outro");
+        }
     }
     IEnumerator Outro()
     {
@@ -89,11 +93,11 @@ public class ChapterHandling : MonoBehaviour
             {
                 Color color = fadeOut.color;
                 fadeOut.color = new Color(0, 0, 0, 0);
-                float a = 0;
+                a = 0;
                 while (a <1)
                 {
                     fadeOut.color = Color.Lerp(fadeOut.color, color, a);
-                    a += Time.deltaTime * fadeSpeed;
+                    a += Time.deltaTime * fadeOutSpeed;
                     yield return new WaitForEndOfFrame();
                 }
             }

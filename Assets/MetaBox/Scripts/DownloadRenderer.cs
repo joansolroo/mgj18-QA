@@ -80,6 +80,7 @@ public class DownloadRenderer : MonoBehaviour {
             yield return new WaitForSeconds(0.25f);
            // download.mailRenderer.AttachmentWasOpen();
             OSHandler.Run(download);
+            DownloadManager.instance.Close();
         }
         yield return new WaitForSeconds(0.25f);
         running = false;
