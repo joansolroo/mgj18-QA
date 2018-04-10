@@ -18,6 +18,7 @@ public class DudeController : MonoBehaviour
     [SerializeField] float TimeUntilHelpIsShown = 15;
     [SerializeField] TriggerToggle help;
     bool helpShown = false;
+    [SerializeField] bool rotateWithMouse = false;
     // Use this for initialization
 
     float startTime = 0;
@@ -28,13 +29,27 @@ public class DudeController : MonoBehaviour
         startTime = Time.time;
     }
 
-
+    Vector3 oldPos = new Vector3(float.MinValue, 0);
     [SerializeField] Vector2 speed = Vector2.zero;
     bool step = false;
     // Update is called once per frame
     void Update()
     {
         float dr = Input.GetAxis("Horizontal");
+        if (rotateWithMouse)
+        {
+            Vector3 newPos = Input.mousePosition;
+            if(oldPos.x == float.MinValue)
+            {
+                oldPos = newPos;
+            }
+            else if (newPos.x != oldPos.x)
+            {
+                used = true;
+                dr += (newPos.x - oldPos.x) * 0.02f;
+                oldPos = newPos;
+            }
+        }
         float dx = Input.GetAxis("Vertical");
         if (dr != 0 || dx != 0)
         {

@@ -32,7 +32,7 @@ public class CameraRotation : MonoBehaviour {
             if (newPos.x != oldPos.x)
             {
                 used = true;
-                euler.y += newPos.x - oldPos.x;
+                euler.y += (newPos.x - oldPos.x)*0.25f;
                 oldPos = m_Event.mousePosition;
                 this.transform.localEulerAngles = euler;
             }
